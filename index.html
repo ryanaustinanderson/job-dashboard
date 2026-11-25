@@ -34,7 +34,7 @@
   @media (prefers-color-scheme: dark){
     :root{
       --bg:#12181f; --surface:#1b242e; --surface2:#222e3a; --ink:#eef2f5; --muted:#a9b7c2; --line:#2e3d4a;
-      --accent:#2ebdA6; --accent:#2ebda6; --accent-ink:#0c1a17; --amber:#f0b84a; --amber-bg:#3a2f14; --red:#ff9a9a; --red-bg:#3d2222;
+      --accent:#2ebda6; --accent-ink:#0c1a17; --amber:#f0b84a; --amber-bg:#3a2f14; --red:#ff9a9a; --red-bg:#3d2222;
       --green-bg:#17382f; --green:#5ed3b8; --blue-bg:#1e324a; --blue:#9cc2e8; --grey-bg:#2a3642; --grey:#b8c5d1;
       --shadow:0 1px 3px rgba(0,0,0,.35);
     }
@@ -51,37 +51,69 @@
   .top p strong{color:var(--ink)}
   .source-line{margin-top:10px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
   .source-line a{font-weight:600;padding:6px 0}
-  /* stats */
-  .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:18px 0 22px}
-  .stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 12px;box-shadow:var(--shadow)}
+  /* stats — now clickable */
+  .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:18px 0 10px}
+  .stat{appearance:none;text-align:left;font:inherit;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 12px;box-shadow:var(--shadow);cursor:pointer;color:var(--ink);width:100%}
+  .stat:hover{border-color:var(--accent)}
+  .stat:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .stat[aria-pressed="true"]{border:2px solid var(--accent);padding:13px 11px}
   .stat b{display:block;font-size:28px;line-height:1;font-weight:800}
   .stat span{display:block;margin-top:6px;font-size:12.5px;color:var(--muted);line-height:1.25}
-  .stat.alert b{color:var(--red)} .stat.alert span{color:var(--red)}
+  .stat .tap{display:block;margin-top:8px;font-size:11px;font-weight:700;color:var(--accent)}
+  .stat.alert b{color:var(--red)} .stat.alert span{color:var(--red)} .stat.alert .tap{color:var(--red)}
   @media(max-width:640px){.stats{grid-template-columns:repeat(3,1fr)} .stat b{font-size:24px} .top h1{font-size:25px}}
+  .hint{font-size:13px;color:var(--muted);margin:0 0 6px}
+  /* detail panel */
+  .detail{display:none;background:var(--surface);border:1.5px solid var(--accent);border-radius:var(--radius);padding:16px;margin:12px 0 4px;box-shadow:var(--shadow)}
+  .detail.open{display:block}
+  .detail .d-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .detail h3{margin:0;font-size:18px;line-height:1.25}
+  .detail .d-sub{color:var(--muted);font-size:13.5px;margin:4px 0 0;max-width:65ch}
+  .detail .d-close{appearance:none;border:1px solid var(--line);background:var(--surface2);color:var(--ink);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;cursor:pointer;flex:none}
+  .detail .d-body{margin-top:12px;font-size:14px}
+  .detail .d-body p{margin:6px 0}
+  .detail .d-meta{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--muted);margin-top:8px}
+  .detail .d-meta b{color:var(--ink)}
+  .detail .d-link{display:inline-block;margin-top:12px;background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:700;font-size:14px;padding:10px 16px;border-radius:10px}
+  /* detail tables */
+  .dtable-wrap{overflow-x:auto}
+  table.dtable{width:100%;border-collapse:collapse;font-size:13.5px;min-width:520px}
+  table.dtable th{text-align:left;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);padding:8px 10px 6px;border-bottom:1px solid var(--line)}
+  table.dtable td{padding:8px 10px;border-top:1px solid var(--line);vertical-align:top}
+  table.dtable td.num{font-weight:800;white-space:nowrap}
   /* sections */
   h2{font-size:19px;margin:28px 0 4px;letter-spacing:-.01em}
   h2 + .sub{color:var(--muted);font-size:13.5px;margin:0 0 12px}
   .section-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
   /* lamp */
   .lamp{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-  .lamp li{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:start;box-shadow:var(--shadow)}
+  .lamp li{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:start;box-shadow:var(--shadow);cursor:pointer}
+  .lamp li:hover{border-color:var(--accent)}
+  .lamp li:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .lamp li[aria-expanded="true"]{border:2px solid var(--accent);padding:13px 15px}
   .rank{width:32px;height:32px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-weight:800;font-size:15px}
   .lamp h3{margin:0;font-size:16.5px}
   .lamp .note{color:var(--muted);font-size:13.5px;margin:2px 0 0}
   .lamp .adv{font-size:13px;margin-top:6px}
   .lamp .adv span{color:var(--muted)}
+  .lamp .tap{font-size:11.5px;font-weight:700;color:var(--accent);margin-top:6px}
   .scores{text-align:right;font-size:12px;color:var(--muted);line-height:1.3;white-space:nowrap}
   .scores b{color:var(--ink);font-size:14px}
   .dots{letter-spacing:2px;color:var(--accent);font-size:13px}
   /* next up */
-  .nextup{margin-top:12px;background:var(--surface);border:1.5px dashed var(--accent);border-radius:var(--radius);padding:16px}
+  .nextup{margin-top:12px;background:var(--surface);border:1.5px dashed var(--accent);border-radius:var(--radius);padding:16px;cursor:pointer}
+  .nextup:hover{border-color:var(--ink)}
+  .nextup:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   .nextup .label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--accent)}
   .nextup h3{margin:4px 0 4px;font-size:18px}
   .nextup p{margin:0;color:var(--muted);font-size:14px}
   /* focus cards */
   .focus{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
   @media(max-width:820px){.focus{grid-template-columns:1fr}}
-  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);cursor:pointer}
+  .card:hover{border-color:var(--accent)}
+  .card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .card[aria-expanded="true"]{border:2px solid var(--accent);padding:15px}
   .card h3{margin:0 0 2px;font-size:17px}
   .card .tagline{font-size:13px;color:var(--muted);margin:0 0 12px}
   .card h4{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
@@ -89,13 +121,17 @@
   .card ul{margin:0;padding-left:18px;font-size:13.5px}
   .card li{margin:5px 0}
   .card li::marker{color:var(--accent)}
+  .card .tap{font-size:11.5px;font-weight:700;color:var(--accent);margin:12px 0 0}
   /* filters + apps */
   .filters{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 12px}
   .filters button{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font-size:13.5px;font-weight:600;cursor:pointer;min-height:38px}
   .filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
   .apps{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   @media(max-width:680px){.apps{grid-template-columns:1fr}}
-  .app{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 14px}
+  .app{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 14px;cursor:pointer}
+  .app:hover{border-color:var(--accent)}
+  .app:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .app[aria-expanded="true"]{border:2px solid var(--accent);padding:12px 13px}
   .app .co{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
   .app h3{margin:3px 0 4px;font-size:15px;line-height:1.3}
   .app .loc{font-size:13px;color:var(--muted)}
@@ -104,11 +140,14 @@
   .pill.verify{background:var(--amber-bg);color:var(--amber)}
   .pill.out{background:var(--grey-bg);color:var(--grey)}
   .pill.fit{background:var(--blue-bg);color:var(--blue)}
-  .app .detail{font-size:13px;color:var(--muted);margin-top:6px}
+  .app .detail-line{font-size:13px;color:var(--muted);margin-top:6px}
+  .app .joblink{display:inline-block;margin-top:8px;font-size:13px;font-weight:700;padding:6px 0}
   /* contacts */
   .contacts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   @media(max-width:680px){.contacts{grid-template-columns:1fr}}
-  .contact{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 14px}
+  .contact{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 14px;cursor:pointer}
+  .contact:hover{border-color:var(--accent)}
+  .contact:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   .contact h3{margin:0;font-size:15px} .contact .role{font-size:13px;color:var(--muted)} .contact .next{font-size:13.5px;margin-top:6px}
   .contact .co{font-size:12px;font-weight:700;color:var(--accent)}
   .contact.first{border-color:var(--accent);border-width:1.5px}
@@ -119,11 +158,57 @@
   .overdue th{text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:10px 14px 6px}
   .overdue td{padding:9px 14px;border-top:1px solid var(--line);vertical-align:top}
   .overdue .due{color:var(--red);font-weight:700;white-space:nowrap}
+  .overdue tbody tr{cursor:pointer}
+  .overdue tbody tr:hover td{background:var(--surface2)}
   @media(max-width:560px){ .overdue thead{display:none} .overdue tr{display:block;padding:8px 0;border-top:1px solid var(--line)} .overdue td{display:block;border:none;padding:2px 14px} }
   .parked{margin-top:12px;background:var(--surface2);border-radius:12px;padding:14px 16px;font-size:14px}
   .parked strong{font-size:15px}
   footer{margin-top:32px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
   footer p{margin:4px 0}
+
+  /* person detail modal + v3 */
+  .person-link{cursor:pointer;text-decoration:underline dotted var(--accent);text-underline-offset:3px}
+  .person-link:hover{color:var(--accent)}
+  .coverage{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin:18px 0 4px}
+  .coverage h2{margin:0 0 4px;font-size:19px}
+  .coverage p{font-size:14px;margin:6px 0}
+  .cov-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}
+  @media(max-width:640px){.cov-grid{grid-template-columns:repeat(2,1fr)}}
+  .cov{background:var(--surface2);border-radius:10px;padding:12px}
+  .cov b{display:block;font-size:24px;line-height:1}
+  .cov span{font-size:12.5px;color:var(--muted)}
+  .modal-back{position:fixed;inset:0;background:rgba(10,16,22,.55);display:none;z-index:50;padding:16px;overflow-y:auto}
+  .modal-back.open{display:block}
+  .modal{background:var(--surface);color:var(--ink);border-radius:16px;max-width:640px;margin:24px auto;padding:20px;box-shadow:0 12px 40px rgba(0,0,0,.3)}
+  .modal h3{margin:0;font-size:21px;line-height:1.2}
+  .modal .m-sub{color:var(--muted);font-size:14px;margin:4px 0 0}
+  .modal .m-close{appearance:none;border:1px solid var(--line);background:var(--surface2);color:var(--ink);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;cursor:pointer;flex:none}
+  .modal .m-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .kv{display:grid;grid-template-columns:130px 1fr;gap:6px 12px;font-size:14px;margin-top:14px}
+  @media(max-width:480px){.kv{grid-template-columns:1fr}.kv dt{margin-top:6px}}
+  .kv dt{color:var(--muted);font-weight:600}
+  .kv dd{margin:0}
+  .missing{color:var(--red);font-weight:600}
+  .email-box{background:var(--surface2);border-radius:10px;padding:12px 14px;font-size:14px;margin-top:8px;white-space:pre-wrap}
+  .m-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .m-actions a,.m-actions button{display:inline-block;background:var(--accent);color:var(--accent-ink);text-decoration:none;font-size:14px;padding:10px 16px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
+  .m-actions .secondary{background:var(--surface2);color:var(--ink);border:1px solid var(--line)}
+  .dir-wrap{overflow-x:auto;border-radius:var(--radius)}
+  .dir-table{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--surface);border:1px solid var(--line);min-width:560px}
+  .dir-table th{text-align:left;font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);padding:10px 12px 6px}
+  .dir-table td{padding:8px 12px;border-top:1px solid var(--line);vertical-align:top}
+  .dir-table tbody tr{cursor:pointer}
+  .dir-table tbody tr:hover td{background:var(--surface2)}
+  @media(max-width:560px){ .dir-table{min-width:0} .dir-table thead{display:none} .dir-table tr{display:block;padding:6px 0;border-top:1px solid var(--line)} .dir-table td{display:block;border:none;padding:2px 12px} }
+  .method-pill{display:inline-block;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:999px;background:var(--blue-bg);color:var(--blue);white-space:nowrap}
+  .method-pill.none{background:var(--grey-bg);color:var(--grey)}
+  .aftercall{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+  .aftercall ol{margin:8px 0;padding-left:20px;font-size:14px}
+  .aftercall li{margin:5px 0}
+  .tmpl{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+  @media(max-width:640px){.tmpl{grid-template-columns:1fr}}
+  .tmpl div{background:var(--surface2);border-radius:10px;padding:10px 12px;font-size:13.5px}
+  .tmpl b{display:block;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
   /* widget */
   html[data-hatch-view="widget"] .app-view{display:none}
   .widget-view{display:none}
@@ -147,13 +232,13 @@
     <div><b>47</b> to follow up</div>
     <div><b>#1</b> Google</div>
   </div>
-  <div class="w-label" style="margin-top:10px">Snapshot Nov 25, 2026</div>
+  <div class="w-label" style="margin-top:10px">Snapshot Nov 25, 2026 · 66 people</div>
 </section>
 
 <div class="app-view wrap">
   <header class="top">
     <h1>Job search at a glance</h1>
-    <p><strong>Google / YouTube is #1.</strong> Capital One's MBA Product Manager role is your top-interest application not yet submitted. Amazon stays in play — competitive, but you want to try — with the Pets role as highest fit via Jack Erbs.</p>
+    <p><strong>Google / YouTube is #1.</strong> Capital One's MBA Product Manager role is your top-interest application not yet submitted. Amazon stays in play — competitive, but you want to try — with the Pets role as highest fit via Jack Erbs. The LAMP list is now rebuilt around the companies and people you met at NBMBAA / ROMBA.</p>
     <div class="source-line">
       <span>Snapshot taken <strong>Nov 25, 2026</strong></span>
       <span>·</span>
@@ -161,78 +246,107 @@
     </div>
   </header>
 
-  <div class="stats" role="list" aria-label="Counts">
-    <div class="stat" role="listitem"><b>64</b><span>people in tracker</span></div>
-    <div class="stat" role="listitem"><b>64</b><span>employers on LAMP list</span></div>
-    <div class="stat" role="listitem"><b>19</b><span>applications tracked</span></div>
-    <div class="stat" role="listitem"><b>47</b><span>contacts to follow up</span></div>
-    <div class="stat alert" role="listitem"><b>6</b><span>overdue ROMBA follow-ups</span></div>
+  <div class="stats" role="group" aria-label="Summary counts — tap one to see its detail below">
+    <button type="button" class="stat" data-stat="people" aria-pressed="false"><b>66</b><span>people in tracker</span><span class="tap">Tap for detail ↓</span></button>
+    <button type="button" class="stat" data-stat="employers" aria-pressed="false"><b>64</b><span>employers on LAMP list</span><span class="tap">Tap for detail ↓</span></button>
+    <button type="button" class="stat" data-stat="applications" aria-pressed="false"><b>19</b><span>applications tracked</span><span class="tap">Tap for detail ↓</span></button>
+    <button type="button" class="stat" data-stat="followup" aria-pressed="false"><b>47</b><span>contacts to follow up</span><span class="tap">Tap for detail ↓</span></button>
+    <button type="button" class="stat alert" data-stat="overdue" aria-pressed="false"><b>6</b><span>overdue ROMBA follow-ups</span><span class="tap">Tap for detail ↓</span></button>
   </div>
+  <p class="hint">Tap any number above and its full list opens right below. Employers, focus cards, applications, and contacts below are tappable the same way.</p>
+
+  <div class="detail" id="statDetail" role="region" aria-live="polite" aria-label="Stat detail"></div>
+
+  <section class="coverage" aria-labelledby="cov-h">
+    <h2 id="cov-h">Contact coverage — how to actually reach people</h2>
+    <p>Every person on this page is tappable. Their detail panel shows only the contact details that are really on file — a <strong>Send email</strong> button appears only when a real email exists, and a LinkedIn button only when a real LinkedIn URL exists. Anything missing reads <strong>“Not in tracker — add it.”</strong> Nothing is guessed.</p>
+    <div class="cov-grid">
+      <div class="cov"><b>8 of 66</b><span>have an email on file</span></div>
+      <div class="cov"><b>4</b><span>have LinkedIn only, no email</span></div>
+      <div class="cov"><b>54</b><span>have neither email nor LinkedIn</span></div>
+      <div class="cov"><b>1</b><span>phone on file — Michael Toole</span></div>
+    </div>
+    <p><strong>Why so many are empty:</strong> the People tab of the tracker Sheet has no email, phone, or LinkedIn columns at all — the few details we do have came from the old “MBA Internships 2025” tracker’s Contacts tab and your conference notes. The 15 Chief of Staff contacts have no email or LinkedIn URL on file yet either — find them by searching LinkedIn for name + company.</p>
+    <p><strong>The fix:</strong> add Email / Phone / LinkedIn columns to the People tab of the <a href="https://docs.google.com/spreadsheets/d/1TBbg_GWqIC-lPPsaI4TuAjs-EAL9URY9PnCBjyW-Z5c" target="_blank" rel="noopener">Job Applications Tracker ↗</a>, or request a fresh LinkedIn data export and match your Connections against this list. Once a detail is in the Sheet, it shows up here.</p>
+    <p style="color:var(--muted);font-size:13.5px">Worked example: <span class="person-link" data-person="Chad Plenge" role="button" tabindex="0"><strong>Chad Plenge</strong></span> — no email on file anywhere; his LinkedIn is the way to reach him, and there’s no prior call on record. Tap his name to see exactly how that looks.</p>
+  </section>
+
+  <div class="modal-back" id="personModalBack">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="personModalName" id="personModal"></div>
+  </div>
+
 
   <section aria-labelledby="lamp-h">
     <h2 id="lamp-h">Top 5 employers — LAMP</h2>
-    <p class="sub">Ranked by Motivation, then Posting. Motivation 3 = highest. Posting 3 = live posting verified.</p>
+    <p class="sub">Rebuilt Nov 25 around the NBMBAA / ROMBA companies and people you actually met. Ranked by Motivation, then Posting. Motivation 3 = highest. Posting 3 = live posting verified. Tap an employer for its detail.</p>
     <ol class="lamp">
-      <li>
+      <li data-emp="google" tabindex="0" role="button" aria-expanded="false" aria-label="Google / YouTube — show detail">
         <div class="rank">1</div>
         <div>
           <h3>Google / YouTube</h3>
-          <p class="note">GTM Launch + YouTube Marketing, Chicago — both live Nov 23</p>
-          <p class="adv"><span>Advocates:</span> Kate Haney, Liz Barnum, Bryan Ruis, Kristina Ruis</p>
+          <p class="note">Top company. GTM Launch + YouTube Marketing, Chicago — both live Nov 23. Network strategy — not just the posting; very hard, may not be through the normal program.</p>
+          <p class="adv"><span>Advocates:</span> <span class="person-link" data-person="Kate Haney" role="button" tabindex="0">Kate Haney</span>, <span class="person-link" data-person="Liz Barnum" role="button" tabindex="0">Liz Barnum</span>, <span class="person-link" data-person="Bryan Ruis" role="button" tabindex="0">Bryan Ruis</span>, Kristina Ruis</p>
+          <p class="tap">Tap for detail ↓</p>
         </div>
         <div class="scores"><b>M 3 · P 3</b><br><span class="dots">●●●</span></div>
       </li>
-      <li>
+      <li data-emp="capitalone" tabindex="0" role="button" aria-expanded="false" aria-label="Capital One — show detail">
         <div class="rank">2</div>
         <div>
           <h3>Capital One</h3>
-          <p class="note">MBA Product Manager 2027, Chicago $169k — live, no close date</p>
-          <p class="adv"><span>Advocate:</span> Luis Armstrong (Payments, Chicago)</p>
+          <p class="note">MBA Product Manager 2027, Chicago $169k — live, no close date. BizOps / Product fit.</p>
+          <p class="adv"><span>Advocate:</span> <span class="person-link" data-person="Luis Armstrong" role="button" tabindex="0">Luis Armstrong</span> (Payments, Chicago) — ROMBA</p>
+          <p class="tap">Tap for detail ↓</p>
         </div>
         <div class="scores"><b>M 3 · P 3</b><br><span class="dots">●●●</span></div>
       </li>
-      <li>
+      <li data-emp="rbc" tabindex="0" role="button" aria-expanded="false" aria-label="Royal Bank of Canada (RBC) — show detail">
         <div class="rank">3</div>
         <div>
-          <h3>BlackRock</h3>
-          <p class="note">Target roles (TBD), via Tyler intro</p>
-          <p class="adv"><span>Advocate:</span> Tyler Ryan (VP, ETF Product) — note sent Nov 23</p>
+          <h3>Royal Bank of Canada (RBC)</h3>
+          <p class="note">WealthTech platform strategy / BizOps, NYC / Jersey City. No specific MBA posting yet — network route.</p>
+          <p class="adv"><span>Advocates:</span> <span class="person-link" data-person="Shareen Luze" role="button" tabindex="0">Shareen Luze</span> (#1 target contact), <span class="person-link" data-person="Jacob Mathews" role="button" tabindex="0">Jacob Mathews</span>, <span class="person-link" data-person="Irina Melkumyan" role="button" tabindex="0">Irina Melkumyan</span>, <span class="person-link" data-person="Lisa Jenkins" role="button" tabindex="0">Lisa Jenkins</span> — NBMBAA</p>
+          <p class="tap">Tap for detail ↓</p>
         </div>
         <div class="scores"><b>M 3 · P 1</b><br><span class="dots">●○○</span></div>
       </li>
-      <li>
+      <li data-emp="blackrock" tabindex="0" role="button" aria-expanded="false" aria-label="BlackRock — show detail">
         <div class="rank">4</div>
         <div>
-          <h3>Adobe</h3>
-          <p class="note">Rolled forward from old MBA Internships tracker, Nov 24</p>
-          <p class="adv"><span>Advocate:</span> Ariane Owens — University Sourcing Partner</p>
+          <h3>BlackRock</h3>
+          <p class="note">4 target Associate roles, NYC, via Tyler intro.</p>
+          <p class="adv"><span>Advocate:</span> <span class="person-link" data-person="Tyler Ryan" role="button" tabindex="0">Tyler Ryan</span> (VP, ETF Product) — note sent Nov 23</p>
+          <p class="tap">Tap for detail ↓</p>
         </div>
         <div class="scores"><b>M 3 · P 1</b><br><span class="dots">●○○</span></div>
       </li>
-      <li>
+      <li data-emp="amazon" tabindex="0" role="button" aria-expanded="false" aria-label="Amazon — show detail">
         <div class="rank">5</div>
         <div>
-          <h3>Microsoft</h3>
-          <p class="note">Rolled forward from old MBA Internships tracker, Nov 24</p>
-          <p class="adv"><span>Advocates:</span> Michael Toole — MBA Recruiter; Andrew Clark — University Recruiter, UF</p>
+          <h3>Amazon</h3>
+          <p class="note">Also top, very hard. MLDP live; Pets is referral-only via Jack Erbs. Network strategy, not just the program.</p>
+          <p class="adv"><span>Advocates:</span> <span class="person-link" data-person="Jack Erbs" role="button" tabindex="0">Jack Erbs</span> (Pets, Customer Success) — ROMBA; <span class="person-link" data-person="Matt Gates" role="button" tabindex="0">Matt Gates</span>, Sr. Product Manager</p>
+          <p class="tap">Tap for detail ↓</p>
         </div>
-        <div class="scores"><b>M 3 · P 1</b><br><span class="dots">●○○</span></div>
+        <div class="scores"><b>M 2 · P 3</b><br><span class="dots">●●○</span></div>
       </li>
     </ol>
 
-    <div class="nextup">
-      <div class="label">Next up — not in Top 5</div>
-      <h3>Amazon — Motivation 2 · Posting 3</h3>
-      <p>MLDP live in Seattle, $121,200–$163,900, starts Jul 19, 2027. Sr Program Manager — Pets is referral-only via <strong>Jack Erbs</strong> (Manager, Customer Success, Amazon Pets) and is your highest-fit role overall.</p>
+    <div class="detail" id="empDetail" role="region" aria-live="polite" aria-label="Employer detail"></div>
+
+    <div class="nextup" data-emp="bofa" tabindex="0" role="button" aria-expanded="false" aria-label="Bank of America — show detail">
+      <div class="label">Next up — not in Top 5 · Tap for detail ↓</div>
+      <h3>Bank of America — Motivation 2 · Posting 3</h3>
+      <p>Strategy &amp; Management Associate, live Nov 20, NYC limited / Charlotte primary. Advocate: <span class="person-link" data-person="BofA Recruiter" role="button" tabindex="0">BofA Recruiter</span> — ROMBA.</p>
     </div>
-    <p class="sub" style="margin-top:10px">JPMorgan Chase is excluded from the Top 5 despite Motivation 3 — CAP/CADP has no live full-time posting for May 2027 grads. ScottMadden is the one consulting exception; no other consulting firms are in the Top 5.</p>
+    <p class="sub" style="margin-top:10px">Adobe is out of the Top 5 — demoted from Motivation 3 to 1 (old 2025 score only, no NBMBAA / ROMBA driver). JPMorgan Chase is excluded despite its history — CAP/CADP has no live full-time posting for May 2027 grads. ScottMadden is the one consulting exception; no other consulting firms are in the Top 5. Target roles: Business Operations, Product Manager, AI Product Manager, and Chief of Staff-type roles, in Chicago or New York.</p>
   </section>
 
   <section aria-labelledby="focus-h">
     <h2 id="focus-h">Focus: Google · Capital One · Amazon</h2>
-    <p class="sub">Roles and contacts from the snapshot.</p>
+    <p class="sub">Roles and contacts from the snapshot. Tap a card for its detail, including posting links where they exist.</p>
     <div class="focus">
-      <article class="card">
+      <article class="card" data-emp="google" tabindex="0" role="button" aria-expanded="false" aria-label="Google / YouTube focus — show detail">
         <h3>Google / YouTube</h3>
         <p class="tagline">Chicago · Both roles live Nov 23</p>
         <h4>Roles</h4>
@@ -242,14 +356,15 @@
         </ul>
         <h4>Contacts</h4>
         <ul>
-          <li>Kate Haney — Product Sales Manager</li>
-          <li>Liz Barnum — Google Search Manager</li>
-          <li>Bryan Ruis — Global Sales EM</li>
-          <li>Kristina Ruis — Account Manager</li>
+          <li><span class="person-link" data-person="Kate Haney" role="button" tabindex="0">Kate Haney</span> — Product Sales Manager</li>
+          <li><span class="person-link" data-person="Liz Barnum" role="button" tabindex="0">Liz Barnum</span> — Google Search Manager</li>
+          <li><span class="person-link" data-person="Bryan Ruis" role="button" tabindex="0">Bryan Ruis</span> — Global Sales EM</li>
+          <li><span class="person-link" data-person="Kristina Ruis" role="button" tabindex="0">Kristina Ruis</span> — Account Manager</li>
         </ul>
+        <p class="tap">Tap for detail + posting links ↓</p>
       </article>
 
-      <article class="card">
+      <article class="card" data-emp="capitalone" tabindex="0" role="button" aria-expanded="false" aria-label="Capital One focus — show detail">
         <h3>Capital One</h3>
         <p class="tagline">Top interest — not applied yet</p>
         <h4>Role</h4>
@@ -258,39 +373,42 @@
         </ul>
         <h4>Contact</h4>
         <ul>
-          <li>Luis Armstrong — Payments, Chicago, ex-Discover</li>
+          <li><span class="person-link" data-person="Luis Armstrong" role="button" tabindex="0">Luis Armstrong</span> — Payments, Chicago, ex-Discover</li>
         </ul>
+        <p class="tap">Tap for detail + posting link ↓</p>
       </article>
 
-      <article class="card">
+      <article class="card" data-emp="amazon" tabindex="0" role="button" aria-expanded="false" aria-label="Amazon focus — show detail">
         <h3>Amazon</h3>
         <p class="tagline">Motivation 2 · Posting 3 · 8 contacts</p>
         <h4>Roles</h4>
         <ul>
           <li><strong>MLDP</strong> — Seattle, $121,200–$163,900, starts Jul 19, 2027, live</li>
           <li><strong>Pathways Operations Manager</strong> — open</li>
-          <li><strong>Sr Program Manager — Pets</strong> — Arlington / NYC, highest fit, referral-only via Jack Erbs</li>
+          <li><strong>Sr Program Manager — Pets</strong> — Arlington / NYC, highest fit, referral-only via <span class="person-link" data-person="Jack Erbs" role="button" tabindex="0">Jack Erbs</span></li>
         </ul>
         <h4>Contacts</h4>
         <ul>
-          <li>Jack Erbs — Manager, Customer Success, Amazon Pets</li>
-          <li>Matt Gates — Sr. Product Manager</li>
-          <li>Ian Hernandez — Head of Business Development</li>
-          <li>Pato Smith — Sr. Supply Chain Manager</li>
-          <li>Jack Oliver — Sr. Product Manager</li>
-          <li>Timothy Wong — Regional PM, Data Center Construction</li>
-          <li>Marisa Li — Sr. Product Manager, Tech</li>
-          <li>Matthew Manibusan — Product Development</li>
+          <li><span class="person-link" data-person="Jack Erbs" role="button" tabindex="0">Jack Erbs</span> — Manager, Customer Success, Amazon Pets</li>
+          <li><span class="person-link" data-person="Matt Gates" role="button" tabindex="0">Matt Gates</span> — Sr. Product Manager</li>
+          <li><span class="person-link" data-person="Ian Hernandez" role="button" tabindex="0">Ian Hernandez</span> — Head of Business Development</li>
+          <li><span class="person-link" data-person="Pato Smith" role="button" tabindex="0">Pato Smith</span> — Sr. Supply Chain Manager</li>
+          <li><span class="person-link" data-person="Jack Oliver" role="button" tabindex="0">Jack Oliver</span> — Sr. Product Manager</li>
+          <li><span class="person-link" data-person="Timothy Wong" role="button" tabindex="0">Timothy Wong</span> — Regional PM, Data Center Construction</li>
+          <li><span class="person-link" data-person="Marisa Li" role="button" tabindex="0">Marisa Li</span> — Sr. Product Manager, Tech</li>
+          <li><span class="person-link" data-person="Matthew Manibusan" role="button" tabindex="0">Matthew Manibusan</span> — Product Development</li>
         </ul>
+        <p class="tap">Tap for detail + posting links ↓</p>
       </article>
     </div>
+    <div class="detail" id="focusDetail" role="region" aria-live="polite" aria-label="Focus company detail"></div>
   </section>
 
   <section aria-labelledby="apps-h">
     <div class="section-head">
       <div>
         <h2 id="apps-h">Applications — 19 total</h2>
-        <p class="sub" style="margin-bottom:0">Filter by where things stand right now.</p>
+        <p class="sub" style="margin-bottom:0">Filter by where things stand, then tap any application for its detail and posting link (12 of the 19 have a link in the tracker snapshot).</p>
       </div>
     </div>
     <div class="filters" role="group" aria-label="Filter applications">
@@ -302,61 +420,64 @@
     </div>
     <div class="apps" id="appsGrid">
       <!-- LIVE -->
-      <article class="app" data-cat="live"><div class="co">Google / YouTube · Chicago</div><h3>Strategy and Operations Senior Associate, GTM Launch</h3><span class="pill live">Live Nov 23 — apply</span></article>
-      <article class="app" data-cat="live"><div class="co">Google / YouTube · Chicago</div><h3>Global Strategy and Operations Associate, YouTube Marketing</h3><span class="pill live">Live — not applied yet</span></article>
-      <article class="app" data-cat="live"><div class="co">Capital One · Chicago / NYC / McLean / Richmond</div><h3>MBA Product Manager – 2027</h3><span class="pill fit">Top interest — not applied yet</span><p class="detail">Chicago $169k. No close date listed.</p></article>
-      <article class="app" data-cat="live"><div class="co">Amazon · Seattle</div><h3>MLDP</h3><span class="pill live">Live — apply</span><p class="detail">$121,200–$163,900 · Starts Jul 19, 2027</p></article>
-      <article class="app" data-cat="live"><div class="co">Amazon</div><h3>Pathways Operations Manager</h3><span class="pill live">Open</span></article>
-      <article class="app" data-cat="fit"><div class="co">Amazon · Arlington / NYC</div><h3>Sr Program Manager — Pets</h3><span class="pill fit">Highest fit — referral only</span><p class="detail">Via Jack Erbs, Customer Success. Not a live apply-now posting.</p></article>
-      <article class="app" data-cat="live"><div class="co">Bank of America · Charlotte / NYC</div><h3>Strategy &amp; Management Associate</h3><span class="pill live">Live Nov 20</span><p class="detail">NYC limited, Charlotte primary.</p></article>
-      <article class="app" data-cat="live"><div class="co">Spencer Stuart</div><h3>Associate</h3><span class="pill live">Open</span></article>
-      <article class="app" data-cat="live"><div class="co">Simon-Kucher · NYC</div><h3>Pricing</h3><span class="pill verify">Likely live — confirm</span><p class="detail">Confirm on simon-kucher.com/careers</p></article>
-      <article class="app" data-cat="live"><div class="co">Citi · Tampa, FL</div><h3>Functions – Finance, Full Time Associate, Tampa – USA, 2027 (FMA)</h3><span class="pill verify">Page still live Nov 23</span><p class="detail">Close date Oct 7 passed — try Apply button.</p></article>
-      <article class="app" data-cat="live"><div class="co">DoorDash · Chicago</div><h3>Associate Manager, New Verticals — Convenience Strategy &amp; Operations</h3><span class="pill verify">Verify on DoorDash careers</span></article>
+      <article class="app" data-cat="live" data-app="0" tabindex="0" role="button" aria-expanded="false"><div class="co">Google / YouTube · Chicago</div><h3>Strategy and Operations Senior Associate, GTM Launch</h3><span class="pill live">Live Nov 23 — apply</span><br><a class="joblink" href="https://www.google.com/about/careers/applications/jobs/results/?location=Chicago%2C%20IL%2C%20USA&q=%22Strategy%20and%20Operations%22" target="_blank" rel="noopener">View posting ↗</a></article>
+      <article class="app" data-cat="live" data-app="1" tabindex="0" role="button" aria-expanded="false"><div class="co">Google / YouTube · Chicago</div><h3>Global Strategy and Operations Associate, YouTube Marketing</h3><span class="pill live">Live — not applied yet</span><br><a class="joblink" href="https://www.google.com/about/careers/applications/jobs/results/?company=YouTube&location=Chicago%2C%20IL%2C%20USA" target="_blank" rel="noopener">View posting ↗</a></article>
+      <article class="app" data-cat="live" data-app="2" tabindex="0" role="button" aria-expanded="false"><div class="co">Capital One · Chicago / NYC / McLean / Richmond</div><h3>MBA Product Manager – 2027</h3><span class="pill fit">Top interest — not applied yet</span><p class="detail-line">Chicago $169k. No close date listed.</p><a class="joblink" href="https://simplify.jobs/p/3fd7c27a-a027-4f40-9a9f-b819aee35931/Product-Manager" target="_blank" rel="noopener">View posting ↗</a></article>
+      <article class="app" data-cat="live" data-app="3" tabindex="0" role="button" aria-expanded="false"><div class="co">Amazon · Seattle</div><h3>MLDP</h3><span class="pill live">Live — apply</span><p class="detail-line">$121,200–$163,900 · Starts Jul 19, 2027</p><a class="joblink" href="https://www.amazon.jobs/en-gb/jobs/10491679/2027-mba-leadership-development-program-mldp-full-time" target="_blank" rel="noopener">View posting ↗</a></article>
+      <article class="app" data-cat="live" data-app="4" tabindex="0" role="button" aria-expanded="false"><div class="co">Amazon</div><h3>Pathways Operations Manager</h3><span class="pill live">Open</span><br><a class="joblink" href="https://www.monster.com/job-openings/2027-mba-pathways-full-time-operations-manager-nationwide-opportunities-seattle-wa--22461c26-c741-4876-9e9b-b09424e662df" target="_blank" rel="noopener">View posting ↗</a></article>
+      <article class="app" data-cat="fit" data-app="5" tabindex="0" role="button" aria-expanded="false"><div class="co">Amazon · Arlington / NYC</div><h3>Sr Program Manager — Pets</h3><span class="pill fit">Highest fit — referral only</span><p class="detail-line">Via <span class="person-link" data-person="Jack Erbs" role="button" tabindex="0">Jack Erbs</span>, Customer Success. Not a live apply-now posting, so no link in the tracker.</p></article>
+      <article class="app" data-cat="live" data-app="6" tabindex="0" role="button" aria-expanded="false"><div class="co">Bank of America · Charlotte / NYC</div><h3>Strategy &amp; Management Associate</h3><span class="pill live">Live Nov 20</span><p class="detail-line">NYC limited, Charlotte primary.</p><a class="joblink" href="https://bankcampuscareers.tal.net/vx/mobile-0/brand-4/candidate/so/pm/1/pl/1/opp/14622-Strategy-Management-Associate-Program-2027/en-GB" target="_blank" rel="noopener">View posting ↗</a></article>
+      <article class="app" data-cat="live" data-app="7" tabindex="0" role="button" aria-expanded="false"><div class="co">Spencer Stuart</div><h3>Associate</h3><span class="pill live">Open</span><br><a class="joblink" href="https://diversityjobs.com/career/14574080/Associate-Consumer-Practice-Retail-Direct-To-Consumer-Apparel-Luxury-Goods-New-York-New-York" target="_blank" rel="noopener">View posting ↗</a></article>
+      <article class="app" data-cat="live" data-app="8" tabindex="0" role="button" aria-expanded="false"><div class="co">Simon-Kucher · NYC</div><h3>Pricing</h3><span class="pill verify">Likely live — confirm</span><p class="detail-line">Confirm on simon-kucher.com/careers</p><a class="joblink" href="https://career.io/job/manager-americas-master-tms-c1beab6b8df30db88b2512458e3fa00c" target="_blank" rel="noopener">View posting ↗</a></article>
+      <article class="app" data-cat="live" data-app="9" tabindex="0" role="button" aria-expanded="false"><div class="co">Citi · Tampa, FL</div><h3>Functions – Finance, Full Time Associate, Tampa – USA, 2027 (FMA)</h3><span class="pill verify">Page still live Nov 23</span><p class="detail-line">Close date Oct 7 passed — try Apply button.</p><a class="joblink" href="https://jobs.citi.com/job/tampa/functions-finance-full-time-associate-tampa-usa-2027/287/102161060464" target="_blank" rel="noopener">View posting ↗</a></article>
+      <article class="app" data-cat="live" data-app="10" tabindex="0" role="button" aria-expanded="false"><div class="co">DoorDash · Chicago</div><h3>Associate Manager, New Verticals — Convenience Strategy &amp; Operations</h3><span class="pill verify">Verify on DoorDash careers</span><br><a class="joblink" href="https://www.theladders.com/job/associate-manager-new-verticals-convenience-strategy-operations-doordash-chicago-il_87341088?source=industry" target="_blank" rel="noopener">View posting ↗</a></article>
       <!-- WATCH -->
-      <article class="app" data-cat="watch"><div class="co">BlackRock</div><h3>Target roles (TBD)</h3><span class="pill fit">Target — via Tyler intro</span></article>
-      <article class="app" data-cat="watch"><div class="co">McDonald's · Chicago</div><h3>Leadership Development / Corporate roles — Chicago</h3><span class="pill out">No specific MBA LDP posting found Nov 24</span></article>
-      <article class="app" data-cat="watch"><div class="co">ScottMadden · Atlanta / Raleigh / Westborough, MA</div><h3>Associate — MBA entry</h3><span class="pill out">No live campus MBA Associate posting found Nov 24</span><p class="detail">Your one consulting exception — favorite firm.</p></article>
+      <article class="app" data-cat="watch" data-app="11" tabindex="0" role="button" aria-expanded="false"><div class="co">BlackRock</div><h3>Target roles (TBD)</h3><span class="pill fit">Target — via Tyler intro</span><p class="detail-line">No posting link in the tracker — network route via Tyler Ryan.</p></article>
+      <article class="app" data-cat="watch" data-app="12" tabindex="0" role="button" aria-expanded="false"><div class="co">McDonald's · Chicago</div><h3>Leadership Development / Corporate roles — Chicago</h3><span class="pill out">No specific MBA LDP posting found Nov 24</span></article>
+      <article class="app" data-cat="watch" data-app="13" tabindex="0" role="button" aria-expanded="false"><div class="co">ScottMadden · Atlanta / Raleigh / Westborough, MA</div><h3>Associate — MBA entry</h3><span class="pill out">No live campus MBA Associate posting found Nov 24</span><p class="detail-line">Your one consulting exception — favorite firm.</p><a class="joblink" href="https://www.scottmadden.com/careers/" target="_blank" rel="noopener">ScottMadden careers ↗</a></article>
       <!-- OUT -->
-      <article class="app" data-cat="out"><div class="co">JPMorgan Chase · NYC</div><h3>CAP / CADP</h3><span class="pill out">Out — no live FT posting</span></article>
-      <article class="app" data-cat="out"><div class="co">Pfizer · Hudson Yards, NYC</div><h3>Commercial Operations</h3><span class="pill out">Out — no live MBA posting</span></article>
-      <article class="app" data-cat="out"><div class="co">Pfizer</div><h3>Marketing</h3><span class="pill out">Out — closed / ineligible</span></article>
-      <article class="app" data-cat="out"><div class="co">Dynasty · NYC</div><h3>Platform Operations</h3><span class="pill out">Out — no live NYC posting</span></article>
-      <article class="app" data-cat="out"><div class="co">TransUnion · Chicago / NYC</div><h3>Product Development</h3><span class="pill out">Out — no MBA-level posting</span></article>
+      <article class="app" data-cat="out" data-app="14" tabindex="0" role="button" aria-expanded="false"><div class="co">JPMorgan Chase · NYC</div><h3>CAP / CADP</h3><span class="pill out">Out — no live FT posting</span></article>
+      <article class="app" data-cat="out" data-app="15" tabindex="0" role="button" aria-expanded="false"><div class="co">Pfizer · Hudson Yards, NYC</div><h3>Commercial Operations</h3><span class="pill out">Out — no live MBA posting</span></article>
+      <article class="app" data-cat="out" data-app="16" tabindex="0" role="button" aria-expanded="false"><div class="co">Pfizer</div><h3>Marketing</h3><span class="pill out">Out — closed / ineligible</span><br><a class="joblink" href="https://www.builtinnyc.com/job/marketing-rotational-manager/11548572" target="_blank" rel="noopener">View posting ↗</a></article>
+      <article class="app" data-cat="out" data-app="17" tabindex="0" role="button" aria-expanded="false"><div class="co">Dynasty · NYC</div><h3>Platform Operations</h3><span class="pill out">Out — no live NYC posting</span></article>
+      <article class="app" data-cat="out" data-app="18" tabindex="0" role="button" aria-expanded="false"><div class="co">TransUnion · Chicago / NYC</div><h3>Product Development</h3><span class="pill out">Out — no MBA-level posting</span></article>
     </div>
+    <div class="detail" id="appDetail" role="region" aria-live="polite" aria-label="Application detail"></div>
   </section>
 
   <section aria-labelledby="follow-h">
     <h2 id="follow-h">Follow up next</h2>
-    <p class="sub">8 priority names from the 47 people marked “To follow up” in the tracker.</p>
+    <p class="sub">8 priority names from the 47 people marked “To follow up” in the tracker. Tap a contact for its detail.</p>
     <div class="contacts">
-      <article class="contact first"><div class="co">RBC</div><h3>Shareen Luze <span class="badge1">#1 TARGET</span></h3><div class="role">Head, Business Administration — RBC Wealth Management</div><p class="next">Send thank-you — RBC is #1 target contact</p></article>
-      <article class="contact"><div class="co">Citi</div><h3>Jemila Smith</h3><div class="role">Campus Recruiter, Corporate Finance</div><p class="next">Follow up — Citi Corporate Finance / FMA</p></article>
-      <article class="contact"><div class="co">Capital One</div><h3>Luis Armstrong</h3><div class="role">Payments</div><p class="next">Follow up — payments, Chicago, ex-Discover</p></article>
-      <article class="contact"><div class="co">Morgan Stanley</div><h3>Melissa Sawyer</h3><div class="role">Tech platform for advisors</div><p class="next">Email roles — she will connect you with the team</p></article>
-      <article class="contact"><div class="co">Danaher</div><h3>April Vich</h3><div class="role">Recruiter</div><p class="next">Send follow-up email — front-facing Biz Ops, Chicago / DC</p></article>
-      <article class="contact"><div class="co">TransUnion</div><h3>Derek Hairston</h3><div class="role">Driving Customer Value &amp; Retention</div><p class="next">Follow up — TransUnion</p></article>
-      <article class="contact"><div class="co">Google</div><h3>Kate Haney</h3><div class="role">Product Sales Manager</div><p class="next">Follow up — Google, UF speaker</p></article>
-      <article class="contact"><div class="co">Amazon</div><h3>Matt Gates</h3><div class="role">Sr. Product Manager</div><p class="next">Follow up — Amazon Product / Customer Success</p></article>
+      <article class="contact first" data-contact="0" data-person-idx="0" tabindex="0" role="button" aria-expanded="false"><div class="co">RBC</div><h3>Shareen Luze <span class="badge1">#1 TARGET</span></h3><div class="role">Head, Business Administration — RBC Wealth Management</div><p class="next">Send thank-you — RBC is #1 target contact</p></article>
+      <article class="contact" data-contact="1" data-person-idx="1" tabindex="0" role="button" aria-expanded="false"><div class="co">Citi</div><h3>Jemila Smith</h3><div class="role">Campus Recruiter, Corporate Finance</div><p class="next">Follow up — Citi Corporate Finance / FMA</p></article>
+      <article class="contact" data-contact="2" data-person-idx="2" tabindex="0" role="button" aria-expanded="false"><div class="co">Capital One</div><h3>Luis Armstrong</h3><div class="role">Payments</div><p class="next">Follow up — payments, Chicago, ex-Discover</p></article>
+      <article class="contact" data-contact="3" data-person-idx="3" tabindex="0" role="button" aria-expanded="false"><div class="co">Morgan Stanley</div><h3>Melissa Sawyer</h3><div class="role">Tech platform for advisors</div><p class="next">Email roles — she will connect you with the team</p></article>
+      <article class="contact" data-contact="4" data-person-idx="4" tabindex="0" role="button" aria-expanded="false"><div class="co">Danaher</div><h3>April Vich</h3><div class="role">Recruiter</div><p class="next">Send follow-up email — front-facing Biz Ops, Chicago / DC</p></article>
+      <article class="contact" data-contact="5" data-person-idx="5" tabindex="0" role="button" aria-expanded="false"><div class="co">TransUnion</div><h3>Derek Hairston</h3><div class="role">Driving Customer Value &amp; Retention</div><p class="next">Follow up — TransUnion</p></article>
+      <article class="contact" data-contact="6" data-person-idx="6" tabindex="0" role="button" aria-expanded="false"><div class="co">Google</div><h3>Kate Haney</h3><div class="role">Product Sales Manager</div><p class="next">Follow up — Google, UF speaker</p></article>
+      <article class="contact" data-contact="7" data-person-idx="7" tabindex="0" role="button" aria-expanded="false"><div class="co">Amazon</div><h3>Matt Gates</h3><div class="role">Sr. Product Manager</div><p class="next">Follow up — Amazon Product / Customer Success</p></article>
     </div>
+    <div class="detail" id="contactDetail" role="region" aria-live="polite" aria-label="Contact detail"></div>
   </section>
 
   <section aria-labelledby="overdue-h">
     <h2 id="overdue-h">Overdue — ROMBA follow-ups</h2>
-    <p class="sub">Due Oct 6–10, 2026. Still open as of the Nov 25 snapshot.</p>
+    <p class="sub">Due Oct 6–10, 2026. Still open as of the Nov 25 snapshot. Tap a row for its detail.</p>
     <div class="overdue">
       <table>
         <thead><tr><th>Due</th><th>Person</th><th>Company</th><th>Next step</th></tr></thead>
         <tbody>
-          <tr><td class="due">Oct 6</td><td><strong>Chad Plenge</strong></td><td>Spencer Stuart</td><td>LinkedIn follow-up</td></tr>
-          <tr><td class="due">Oct 7</td><td><strong>Pfizer Recruiter</strong></td><td>Pfizer</td><td>Follow up on Commercial Ops + Marketing</td></tr>
-          <tr><td class="due">Oct 7</td><td><strong>Chase Recruiter</strong></td><td>JPMorgan Chase</td><td>Thank-you + follow up on 2 requests</td></tr>
-          <tr><td class="due">Oct 8</td><td><strong>BofA Recruiter</strong></td><td>Bank of America</td><td>Clarify NYC placement</td></tr>
-          <tr><td class="due">Oct 9</td><td><strong>Jack Erbs</strong></td><td>Amazon</td><td>Send thank-you follow-up — Sr Program Manager Pets is highest fit</td></tr>
-          <tr><td class="due">Oct 10</td><td><strong>Accenture Recruiter</strong></td><td>Accenture</td><td>LinkedIn follow-up</td></tr>
+          <tr data-overdue="0" tabindex="0" data-person="Chad Plenge"><td class="due">Oct 6</td><td><strong>Chad Plenge</strong></td><td>Spencer Stuart</td><td>LinkedIn follow-up</td></tr>
+          <tr data-overdue="1" tabindex="0" data-person="Pfizer Recruiter"><td class="due">Oct 7</td><td><strong>Pfizer Recruiter</strong></td><td>Pfizer</td><td>Follow up on Commercial Ops + Marketing</td></tr>
+          <tr data-overdue="2" tabindex="0" data-person="Chase Recruiter"><td class="due">Oct 7</td><td><strong>Chase Recruiter</strong></td><td>JPMorgan Chase</td><td>Thank-you + follow up on 2 requests</td></tr>
+          <tr data-overdue="3" tabindex="0" data-person="BofA Recruiter"><td class="due">Oct 8</td><td><strong>BofA Recruiter</strong></td><td>Bank of America</td><td>Clarify NYC placement</td></tr>
+          <tr data-overdue="4" tabindex="0" data-person="Jack Erbs"><td class="due">Oct 9</td><td><strong>Jack Erbs</strong></td><td>Amazon</td><td>Send thank-you follow-up — Sr Program Manager Pets is highest fit</td></tr>
+          <tr data-overdue="5" tabindex="0" data-person="Accenture Recruiter"><td class="due">Oct 10</td><td><strong>Accenture Recruiter</strong></td><td>Accenture</td><td>LinkedIn follow-up</td></tr>
         </tbody>
       </table>
     </div>
+    <div class="detail" id="overdueDetail" role="region" aria-live="polite" aria-label="Overdue follow-up detail"></div>
 
     <div class="parked">
       <strong>Parked — Ernie Garcia, Sarasota wealth management</strong><br>
@@ -364,27 +485,417 @@
     </div>
   </section>
 
+
+  <section aria-labelledby="people-h">
+    <h2 id="people-h">People — all 66</h2>
+    <p class="sub">Everyone in the tracker’s People tab. Tap any row for their full detail: how you met, last contact, next step, the contact method we actually have, prior-call notes, and a suggested outreach email.</p>
+    <div class="dir-wrap"><table class="dir-table"><thead><tr><th>Person</th><th>Company</th><th>Role</th><th>Status</th><th>Contact we have</th></tr></thead><tbody id="peopleBody"></tbody></table></div>
+  </section>
+
+  <section aria-labelledby="cos-h">
+    <h2 id="cos-h">Chief of Staff networking — 15 people</h2>
+    <p class="sub">Early- and mid-career Chiefs of Staff at startups and smaller companies — not senior McKinsey-level operators. Matched on your commonalities: University of Florida, Loyola University Chicago, ex-PwC, plus ROMBA / Out for Undergrad, Chicago and Orlando as home, and Asia travel where it applies. None of the 15 has an email or LinkedIn URL on file yet — search LinkedIn by name + company. Tap anyone for their detail and a suggested coffee-chat note.</p>
+    <div class="contacts" id="cosGrid"></div>
+  </section>
+
+  <section aria-labelledby="after-h">
+    <h2 id="after-h">After a call — your notes, saved to the person</h2>
+    <div class="aftercall">
+      <p style="margin:0;font-size:14.5px">So the next conversation starts where the last one left off:</p>
+      <ol>
+        <li><strong>Right after the call,</strong> send Muse a photo of your notes — or just type or say what you remember.</li>
+        <li><strong>Muse summarises them</strong> into the post-call template below and attaches them to that person.</li>
+        <li><strong>Before the next conversation,</strong> tap that person anywhere on this page — their contact details, prior-call notes, and next step are all in the panel, ready to review.</li>
+      </ol>
+      <p style="font-size:14px;margin:10px 0 0">The template Muse fills in for every call:</p>
+      <div class="tmpl">
+        <div><b>Person</b>Name, company, role</div>
+        <div><b>Date</b>When you talked</div>
+        <div><b>How we talked</b>Coffee in person / phone / Zoom / LinkedIn message — where, how long</div>
+        <div><b>What they said</b>2–4 bullets: their advice, what their team does, what they look for, names they mentioned</div>
+        <div><b>What I promised</b>Anything you said you’d send or do — resume, intro, follow-up, article</div>
+        <div><b>Next step</b>The one concrete next thing, and who does it</div>
+        <div><b>Date to follow up</b>Default 3 business days, then 7 (the 3B7 routine)</div>
+        <div><b>Relationship note</b>Anything personal to remember — shared school, city, hobby, something they mentioned</div>
+      </div>
+      <p style="font-size:13.5px;color:var(--muted);margin:12px 0 0">One rule: nothing gets invented. If you don’t remember what someone said, the note says “not sure — check.”</p>
+    </div>
+  </section>
+
   <footer>
     <p><strong>About this page:</strong> Built from a snapshot of the “Job Applications Tracker” Google Sheet taken Nov 25, 2026. The Sheet is the live source — re-check it for current status before applying or following up.</p>
-    <p>Chicago vs. NYC as primary target is still unresolved — this dashboard holds both. Amazon Customer Success appeals to you and you know it's competitive, but you still want to try.</p>
+    <p>Contact details were audited Nov 25, 2026 across the tracker’s People tab, the old “MBA Internships 2025” Contacts tab, and conference notes — see the coverage summary at the top. Chicago vs. NYC as primary target is still unresolved — this dashboard holds both. Amazon Customer Success appeals to you and you know it's competitive, but you still want to try. Newest people in the tracker: Kenny Wang and Teona Avaliani at PwC — mentor contacts, confirmed Nov 25, 2026.</p>
   </footer>
 </div>
 
 <script>
-  (function(){
-    var btns = document.querySelectorAll('.filters button');
-    var apps = document.querySelectorAll('#appsGrid .app');
-    btns.forEach(function(b){
-      b.addEventListener('click', function(){
-        btns.forEach(function(x){ x.setAttribute('aria-pressed','false'); });
-        b.setAttribute('aria-pressed','true');
-        var f = b.getAttribute('data-filter');
-        apps.forEach(function(a){
-          a.style.display = (f==='all' || a.getAttribute('data-cat')===f) ? '' : 'none';
-        });
+(function(){
+  "use strict";
+
+  var CONTACTS = [
+    {company:"RBC", name:"Shareen Luze", role:"Head, Business Administration — RBC Wealth Management", next:"Send thank-you — RBC is #1 target contact"},
+    {company:"Citi", name:"Jemila Smith", role:"Campus Recruiter, Corporate Finance", next:"Follow up — Citi Corporate Finance / FMA"},
+    {company:"Capital One", name:"Luis Armstrong", role:"Payments", next:"Follow up — payments, Chicago, ex-Discover"},
+    {company:"Morgan Stanley", name:"Melissa Sawyer", role:"Tech platform for advisors", next:"Email roles — she will connect you with the team"},
+    {company:"Danaher", name:"April Vich", role:"Recruiter", next:"Send follow-up email — front-facing Biz Ops, Chicago / DC"},
+    {company:"TransUnion", name:"Derek Hairston", role:"Driving Customer Value & Retention", next:"Follow up — TransUnion"},
+    {company:"Google", name:"Kate Haney", role:"Product Sales Manager", next:"Follow up — Google, UF speaker"},
+    {company:"Amazon", name:"Matt Gates", role:"Sr. Product Manager", next:"Follow up — Amazon Product / Customer Success"}
+  ];
+
+  var OVERDUE = [
+    {due:"Oct 6, 2026", name:"Chad Plenge", company:"Spencer Stuart", next:"LinkedIn follow-up"},
+    {due:"Oct 7, 2026", name:"Pfizer Recruiter", company:"Pfizer", next:"Follow up on Commercial Ops + Marketing"},
+    {due:"Oct 7, 2026", name:"Chase Recruiter", company:"JPMorgan Chase", next:"Thank-you + follow up on 2 requests"},
+    {due:"Oct 8, 2026", name:"BofA Recruiter", company:"Bank of America", next:"Clarify NYC placement"},
+    {due:"Oct 9, 2026", name:"Jack Erbs", company:"Amazon", next:"Send thank-you follow-up — Sr Program Manager Pets is highest fit"},
+    {due:"Oct 10, 2026", name:"Accenture Recruiter", company:"Accenture", next:"LinkedIn follow-up"}
+  ];
+
+  var APPS = [
+    {company:"Google / YouTube", location:"Chicago", role:"Strategy and Operations Senior Associate, GTM Launch", status:"Live Nov 23 — apply", link:"https://www.google.com/about/careers/applications/jobs/results/?location=Chicago%2C%20IL%2C%20USA&q=%22Strategy%20and%20Operations%22"},
+    {company:"Google / YouTube", location:"Chicago", role:"Global Strategy and Operations Associate, YouTube Marketing", status:"Not applied yet", link:"https://www.google.com/about/careers/applications/jobs/results/?company=YouTube&location=Chicago%2C%20IL%2C%20USA"},
+    {company:"Capital One", location:"Chicago / NYC / McLean / Richmond", role:"MBA Product Manager – 2027", status:"Not applied yet — top interest", link:"https://simplify.jobs/p/3fd7c27a-a027-4f40-9a9f-b819aee35931/Product-Manager"},
+    {company:"Amazon", location:"Seattle", role:"MLDP", status:"Live — apply", link:"https://www.amazon.jobs/en-gb/jobs/10491679/2027-mba-leadership-development-program-mldp-full-time"},
+    {company:"Amazon", location:"See posting", role:"Pathways Operations Manager", status:"Open", link:"https://www.monster.com/job-openings/2027-mba-pathways-full-time-operations-manager-nationwide-opportunities-seattle-wa--22461c26-c741-4876-9e9b-b09424e662df"},
+    {company:"Amazon", location:"Arlington / NYC", role:"Sr Program Manager — Pets", status:"Highest fit — referral only via Jack Erbs", link:null},
+    {company:"Bank of America", location:"Charlotte / NYC", role:"Strategy & Management Associate", status:"Live Nov 20 — NYC limited, Charlotte primary", link:"https://bankcampuscareers.tal.net/vx/mobile-0/brand-4/candidate/so/pm/1/pl/1/opp/14622-Strategy-Management-Associate-Program-2027/en-GB"},
+    {company:"Spencer Stuart", location:"See posting", role:"Associate", status:"Open", link:"https://diversityjobs.com/career/14574080/Associate-Consumer-Practice-Retail-Direct-To-Consumer-Apparel-Luxury-Goods-New-York-New-York"},
+    {company:"Simon-Kucher", location:"NYC", role:"Pricing", status:"Likely live — confirm on simon-kucher.com/careers", link:"https://career.io/job/manager-americas-master-tms-c1beab6b8df30db88b2512458e3fa00c"},
+    {company:"Citi", location:"Tampa, FL", role:"Functions – Finance, Full Time Associate, Tampa – USA, 2027 (FMA)", status:"Page still live Nov 23 — close date Oct 7 passed, try Apply button", link:"https://jobs.citi.com/job/tampa/functions-finance-full-time-associate-tampa-usa-2027/287/102161060464"},
+    {company:"DoorDash", location:"Chicago", role:"Associate Manager, New Verticals — Convenience Strategy & Operations", status:"Verify on DoorDash careers before applying", link:"https://www.theladders.com/job/associate-manager-new-verticals-convenience-strategy-operations-doordash-chicago-il_87341088?source=industry"},
+    {company:"BlackRock", location:"NYC (target roles)", role:"Target roles (TBD)", status:"Target — via Tyler intro", link:null},
+    {company:"McDonald's", location:"Chicago", role:"Leadership Development / Corporate roles — Chicago", status:"No specific MBA LDP posting found Nov 24", link:null},
+    {company:"ScottMadden", location:"Atlanta / Raleigh / Westborough, MA", role:"Associate — MBA entry", status:"No live campus MBA Associate posting found Nov 24", link:"https://www.scottmadden.com/careers/"},
+    {company:"JPMorgan Chase", location:"NYC", role:"CAP / CADP", status:"No live FT posting", link:null},
+    {company:"Pfizer", location:"Hudson Yards, NYC", role:"Commercial Operations", status:"No live MBA posting", link:null},
+    {company:"Pfizer", location:"See posting", role:"Marketing", status:"Closed — ineligible", link:"https://www.builtinnyc.com/job/marketing-rotational-manager/11548572"},
+    {company:"Dynasty", location:"NYC", role:"Platform Operations", status:"No live NYC posting", link:null},
+    {company:"TransUnion", location:"Chicago / NYC", role:"Product Development", status:"No MBA-level posting", link:null}
+  ];
+
+  var EMPS = {
+    google:{name:"Google / YouTube", rank:"LAMP #1", m:3, p:3, advocate:"Kate Haney, Liz Barnum, Bryan Ruis, Kristina Ruis",
+      note:"Top company. GTM Launch + YouTube Marketing, Chicago, both live Nov 23. Network strategy — not just the posting; very hard, may not be through the normal program.",
+      apps:[0,1], contacts:["Kate Haney — Product Sales Manager","Liz Barnum — Google Search Manager","Bryan Ruis — Global Sales EM","Kristina Ruis — Account Manager"]},
+    capitalone:{name:"Capital One", rank:"LAMP #2", m:3, p:3, advocate:"Luis Armstrong (Payments, Chicago) — ROMBA",
+      note:"MBA Product Manager 2027, Chicago $169k, live, no close date. BizOps / Product fit.",
+      apps:[2], contacts:["Luis Armstrong — Payments, Chicago, ex-Discover"]},
+    rbc:{name:"Royal Bank of Canada (RBC)", rank:"LAMP #3", m:3, p:1, advocate:"Shareen Luze (#1 target contact), Jacob Mathews, Irina Melkumyan, Lisa Jenkins — NBMBAA",
+      note:"WealthTech platform strategy / BizOps, NYC / Jersey City. No specific MBA posting yet — network route. Shareen Luze is your #1 target contact: send the thank-you.",
+      apps:[], contacts:["Shareen Luze — Head, Business Administration, RBC Wealth Management","Jacob Mathews — NBMBAA","Irina Melkumyan — NBMBAA","Lisa Jenkins — NBMBAA"]},
+    blackrock:{name:"BlackRock", rank:"LAMP #4", m:3, p:1, advocate:"Tyler Ryan (VP, ETF Product) — note sent Nov 23",
+      note:"4 target Associate roles, NYC, via Tyler intro.",
+      apps:[11], contacts:["Tyler Ryan — VP, ETF Product"]},
+    amazon:{name:"Amazon", rank:"LAMP #5", m:2, p:3, advocate:"Jack Erbs (Pets, Customer Success) — ROMBA; Matt Gates, Sr. Product Manager",
+      note:"Also top, very hard. MLDP live $121,200–$163,900, starts Jul 19, 2027; Pets is referral-only via Jack Erbs. Network strategy, not just the program.",
+      apps:[3,4,5], contacts:["Jack Erbs — Manager, Customer Success, Amazon Pets","Matt Gates — Sr. Product Manager","Ian Hernandez — Head of Business Development","Pato Smith — Sr. Supply Chain Manager","Jack Oliver — Sr. Product Manager","Timothy Wong — Regional PM, Data Center Construction","Marisa Li — Sr. Product Manager, Tech","Matthew Manibusan — Product Development"]},
+    bofa:{name:"Bank of America", rank:"Next up — just outside the Top 5", m:2, p:3, advocate:"BofA Recruiter — ROMBA",
+      note:"Strategy & Management Associate, live Nov 20, NYC limited / Charlotte primary. A BofA recruiter follow-up (clarify NYC placement, due Oct 8) is also in the overdue list.",
+      apps:[6], contacts:["BofA Recruiter — ROMBA"]}
+  };
+
+  /* ---------- panel helpers ---------- */
+  function headHTML(title, sub){
+    return '<div class="d-head"><div><h3>'+title+'</h3>'+(sub?'<p class="d-sub">'+sub+'</p>':'')+'</div><button type="button" class="d-close" aria-label="Close detail">Close ✕</button></div>';
+  }
+  function openPanel(panel, html){
+    panel.innerHTML = html;
+    panel.classList.add('open');
+    var closeBtn = panel.querySelector('.d-close');
+    if(closeBtn){ closeBtn.addEventListener('click', function(){ closePanel(panel); }); }
+  }
+  function closePanel(panel){
+    panel.classList.remove('open');
+    panel.innerHTML = '';
+    var group = panel.getAttribute('data-group');
+    if(group){
+      document.querySelectorAll('[data-group-item="'+group+'"]').forEach(function(el){
+        el.setAttribute('aria-expanded','false');
+        if(el.classList.contains('stat')) el.setAttribute('aria-pressed','false');
       });
+    }
+  }
+  function toggleItem(panel, el, html){
+    var group = panel.getAttribute('data-group');
+    var wasOpen = el.getAttribute('aria-expanded') === 'true' || el.getAttribute('aria-pressed') === 'true';
+    if(group){
+      document.querySelectorAll('[data-group-item="'+group+'"]').forEach(function(x){
+        x.setAttribute('aria-expanded','false');
+        if(x.classList.contains('stat')) x.setAttribute('aria-pressed','false');
+      });
+    }
+    if(wasOpen && panel.classList.contains('open')){ closePanel(panel); return; }
+    el.setAttribute('aria-expanded','true');
+    if(el.classList.contains('stat')) el.setAttribute('aria-pressed','true');
+    openPanel(panel, html);
+    panel.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+  function linkBtn(link, label){
+    return link ? '<a class="d-link" href="'+link+'" target="_blank" rel="noopener">'+(label||'View posting ↗')+'</a>' : '<p style="margin-top:12px;color:var(--muted);font-size:13.5px">No posting link in the tracker snapshot for this one.</p>';
+  }
+  function appRows(indices){
+    var rows = indices.map(function(i){
+      var a = APPS[i];
+      return '<tr><td><strong>'+a.role+'</strong><br><span style="color:var(--muted)">'+a.company+(a.location?' · '+a.location:'')+'</span></td><td>'+a.status+'</td><td>'+(a.link?'<a href="'+a.link+'" target="_blank" rel="noopener">Posting ↗</a>':'—')+'</td></tr>';
+    }).join('');
+    return '<div class="dtable-wrap"><table class="dtable"><thead><tr><th>Role</th><th>Status</th><th>Link</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+  }
+  function contactRows(list){
+    return list.map(function(c){ return '<tr data-person="'+c.name+'" style="cursor:pointer"><td><strong>'+c.name+'</strong></td><td>'+c.company+'</td><td>'+c.role+'</td><td>'+c.next+'</td></tr>'; }).join('');
+  }
+
+  /* ---------- stat details ---------- */
+  var statPanel = document.getElementById('statDetail');
+  statPanel.setAttribute('data-group','stats');
+  document.querySelectorAll('.stat').forEach(function(el){ el.setAttribute('data-group-item','stats'); });
+
+  var STAT_HTML = {
+    people: function(){
+      return headHTML('66 people in the tracker','47 of the 66 are marked “To follow up.” Below are the 8 priority follow-ups, plus the 2 newest names — Kenny Wang and Teona Avaliani at PwC, mentor contacts confirmed Nov 25, 2026. The full list lives in the People tab of the tracker Sheet.')
+        + '<div class="d-body"><div class="dtable-wrap"><table class="dtable"><thead><tr><th>Person</th><th>Company</th><th>Role</th><th>Next step</th></tr></thead><tbody>'
+        + contactRows(CONTACTS)
+        + '<tr data-person="Kenny Wang" style="cursor:pointer"><td><strong>Kenny Wang</strong></td><td>PwC</td><td>Details TBD</td><td>Mentor — reach out, 20-min call</td></tr>'
+        + '<tr data-person="Teona Avaliani" style="cursor:pointer"><td><strong>Teona Avaliani</strong></td><td>PwC</td><td>Details TBD</td><td>Mentor — reach out, 20-min call; lives in Sarasota</td></tr>'
+        + '</tbody></table></div></div>';
+    },
+    employers: function(){
+      var rows = Object.keys(EMPS).map(function(k){
+        var e = EMPS[k];
+        return '<tr><td><strong>'+e.name+'</strong></td><td>'+e.rank+'</td><td class="num">M '+e.m+' · P '+e.p+'</td><td>'+e.advocate+'</td></tr>';
+      }).join('');
+      return headHTML('64 employers on the LAMP list','Rebuilt Nov 25, 2026 around the NBMBAA / ROMBA companies and people you actually met. The Top 5 plus next-up Bank of America:')
+        + '<div class="d-body"><div class="dtable-wrap"><table class="dtable"><thead><tr><th>Employer</th><th>Standing</th><th>Scores</th><th>Advocates</th></tr></thead><tbody>'+rows+'</tbody></table></div>'
+        + '<p>Adobe was demoted from Motivation 3 to 1 — old 2025 score only, no NBMBAA / ROMBA driver — and is out of the Top 5. The same demotion applies to American Express, KKR, Meta, Uber, Apple, Microsoft, Storyblocks, Stripe, Disney, and PayPal. JPMorgan Chase was demoted 3 → 1: CAP/CADP is off the board. Target roles across the list: Business Operations, Product Manager, AI Product Manager, and Chief of Staff-type roles, in Chicago or New York.</p></div>';
+    },
+    applications: function(){
+      var rows = APPS.map(function(a){
+        return '<tr><td>'+a.company+'</td><td><strong>'+a.role+'</strong></td><td>'+(a.location||'—')+'</td><td>'+a.status+'</td><td>'+(a.link?'<a href="'+a.link+'" target="_blank" rel="noopener">Posting ↗</a>':'—')+'</td></tr>';
+      }).join('');
+      return headHTML('19 applications tracked','12 of the 19 have a posting link in the tracker snapshot — every link below is that link, opening in a new tab.')
+        + '<div class="d-body"><div class="dtable-wrap"><table class="dtable"><thead><tr><th>Company</th><th>Role</th><th>Location</th><th>Status</th><th>Link</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+    },
+    followup: function(){
+      return headHTML('47 contacts to follow up','These are the 8 priority names surfaced from the 47. The rest live in the tracker Sheet.')
+        + '<div class="d-body"><div class="dtable-wrap"><table class="dtable"><thead><tr><th>Person</th><th>Company</th><th>Role</th><th>Next step</th></tr></thead><tbody>'
+        + contactRows(CONTACTS)
+        + '</tbody></table></div><p>Start with Shareen Luze at RBC — your #1 target contact.</p></div>';
+    },
+    overdue: function(){
+      var rows = OVERDUE.map(function(o){
+        return '<tr><td style="color:var(--red);font-weight:700;white-space:nowrap">'+o.due+'</td><td><strong>'+o.name+'</strong></td><td>'+o.company+'</td><td>'+o.next+'</td></tr>';
+      }).join('');
+      return headHTML('6 overdue ROMBA follow-ups','All due Oct 6–10, 2026 and still open as of the Nov 25 snapshot.')
+        + '<div class="d-body"><div class="dtable-wrap"><table class="dtable"><thead><tr><th>Due</th><th>Person</th><th>Company</th><th>Next step</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+    }
+  };
+
+  document.querySelectorAll('.stat').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var key = btn.getAttribute('data-stat');
+      toggleItem(statPanel, btn, STAT_HTML[key]());
     });
-  })();
+  });
+
+  /* ---------- employer details (LAMP + next-up + focus cards) ---------- */
+  function empHTML(key){
+    var e = EMPS[key];
+    var body = '<p>'+e.note+'</p>'
+      + '<div class="d-meta"><span><b>Standing:</b> '+e.rank+'</span><span><b>Motivation:</b> '+e.m+' / 3</span><span><b>Posting:</b> '+e.p+' / 3</span></div>'
+      + '<div class="d-meta"><span><b>Advocates:</b> '+e.advocate+'</span></div>';
+    if(e.apps.length){ body += '<h4 style="margin:14px 0 6px;font-size:13px">Tracked applications</h4>' + appRows(e.apps); }
+    else { body += '<p style="margin-top:10px">No application rows tracked for this employer yet — this one runs through networking, not a posting.</p>'; }
+    if(e.contacts.length){ body += '<h4 style="margin:14px 0 6px;font-size:13px">Contacts</h4><ul style="margin:0;padding-left:18px">' + e.contacts.map(function(c){ var nm = c.split(' — ')[0].split(' - ')[0]; return '<li>'+c+'</li>'; }).join('') + '</ul>'; }
+    return headHTML(e.name, null) + '<div class="d-body">' + body + '</div>';
+  }
+  var empPanel = document.getElementById('empDetail');
+  empPanel.setAttribute('data-group','emp');
+  var focusPanel = document.getElementById('focusDetail');
+  focusPanel.setAttribute('data-group','focus');
+  document.querySelectorAll('[data-emp]').forEach(function(el){
+    var inFocus = !!el.closest('.focus');
+    el.setAttribute('data-group-item', inFocus ? 'focus' : 'emp');
+    el.addEventListener('click', function(){
+      toggleItem(inFocus ? focusPanel : empPanel, el, empHTML(el.getAttribute('data-emp')));
+    });
+  });
+
+  /* ---------- application details ---------- */
+  var appPanel = document.getElementById('appDetail');
+  appPanel.setAttribute('data-group','apps');
+  document.querySelectorAll('#appsGrid .app').forEach(function(el){
+    el.setAttribute('data-group-item','apps');
+    el.addEventListener('click', function(){
+      var a = APPS[parseInt(el.getAttribute('data-app'),10)];
+      var html = headHTML(a.role, a.company + (a.location ? ' · ' + a.location : ''))
+        + '<div class="d-body"><div class="d-meta"><span><b>Status:</b> '+a.status+'</span></div>'
+        + linkBtn(a.link) + '</div>';
+      toggleItem(appPanel, el, html);
+    });
+  });
+  document.querySelectorAll('#appsGrid a.joblink').forEach(function(a){
+    a.addEventListener('click', function(ev){ ev.stopPropagation(); });
+  });
+
+  /* ---------- application filters ---------- */
+  var filterBtns = document.querySelectorAll('.filters button');
+  var appCards = document.querySelectorAll('#appsGrid .app');
+  filterBtns.forEach(function(b){
+    b.addEventListener('click', function(){
+      filterBtns.forEach(function(x){ x.setAttribute('aria-pressed','false'); });
+      b.setAttribute('aria-pressed','true');
+      var f = b.getAttribute('data-filter');
+      appCards.forEach(function(a){
+        a.style.display = (f==='all' || a.getAttribute('data-cat')===f) ? '' : 'none';
+      });
+      closePanel(appPanel);
+    });
+  });
+
+  /* ---------- contact details ---------- */
+  var contactPanel = document.getElementById('contactDetail');
+  contactPanel.setAttribute('data-group','contacts');
+  document.querySelectorAll('[data-contact]').forEach(function(el){
+    el.setAttribute('data-group-item','contacts');
+    el.addEventListener('click', function(){
+      var c = CONTACTS[parseInt(el.getAttribute('data-contact'),10)];
+      var html = headHTML(c.name, c.company)
+        + '<div class="d-body"><div class="d-meta"><span><b>Role:</b> '+c.role+'</span></div><p><b>Next step:</b> '+c.next+'</p></div>';
+      toggleItem(contactPanel, el, html);
+    });
+  });
+
+  /* ---------- overdue details ---------- */
+  var overduePanel = document.getElementById('overdueDetail');
+  overduePanel.setAttribute('data-group','overdue');
+  document.querySelectorAll('[data-overdue]').forEach(function(el){
+    el.setAttribute('data-group-item','overdue');
+    function show(){
+      var o = OVERDUE[parseInt(el.getAttribute('data-overdue'),10)];
+      var html = headHTML(o.name + ' — ' + o.company, 'ROMBA follow-up, overdue')
+        + '<div class="d-body"><div class="d-meta"><span><b>Was due:</b> '+o.due+'</span></div><p><b>Next step:</b> '+o.next+'</p><p style="color:var(--muted)">Still open as of the Nov 25, 2026 snapshot.</p></div>';
+      toggleItem(overduePanel, el, html);
+    }
+    el.addEventListener('click', show);
+  });
+
+  /* ---------- v3: full contact data (snapshot Nov 25, 2026 - nothing invented) ---------- */
+  var ALL_CONTACTS = [{"name": "Nate", "company": "", "role": "Resume advisor", "how_we_met": "Nov 17 resume session", "last_contact": "2026-11-17", "next_step": "Send note: Competencies question + 10-company list", "status": "Waiting on you", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "Conference / tracker contact", "prior_notes": "Nov 17 resume session. Still to send: Competencies question + 10-company list.", "suggested_email": "Hi Nate — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through Conference / tracker contact, and your work at  — Resume advisor caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Jack Erbs", "company": "Amazon", "role": "Manager, Customer Success — Amazon Pets", "how_we_met": "Coffee chat Oct 3, Hilton Anatole; ROMBA Booth 222EX", "last_contact": "2026-10-03", "next_step": "Send thank-you follow-up — Sr Program Manager Pets is highest fit (was due 2026-10-09)", "status": "Overdue", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "ROMBA", "prior_notes": "Coffee chat Oct 3, Hilton Anatole, ROMBA — whether it actually happened is UNCONFIRMED. Thank-you was due Oct 9. Leads 6-10 CSMs, Amazon Pets.", "suggested_email": "Hi Jack — thank you for the coffee at ROMBA on Oct 3, and for walking me through Customer Success at Amazon Pets. Hearing how you lead a team of CSMs — and how CS influences growth without owning the P&L — sharpened how I'm thinking about the Sr Program Manager — Pets role. I'd love to stay in touch as I apply — is there someone on the Pets team you'd suggest I speak with? Thank you again, Ryan"}, {"name": "Chris", "company": "", "role": "Career coach (ex-LinkedIn S&O 5 yrs, ex-Deloitte)", "how_we_met": "Coaching sessions (resume + mock interviews)", "last_contact": "2026-08-23", "next_step": "Resume sessions: every bullet, 3 sessions", "status": "Active", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "Conference / tracker contact", "prior_notes": "Career coach, ex-LinkedIn S&O 5 yrs, ex-Deloitte. Resume sessions: every bullet, 3 sessions.", "suggested_email": "Hi Chris — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through Conference / tracker contact, and your work at  — Career coach (ex-LinkedIn S&O 5 yrs, ex-Deloitte) caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Andrei C", "company": "Microsoft", "role": "Manager, Strategic Partnerships", "how_we_met": "Coffee chat prep ready (questions drafted)", "last_contact": "Not recorded", "next_step": "Confirm whether chat happened; if not, schedule it", "status": "Prep done", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "Conference / tracker contact", "prior_notes": "Coffee chat prep ready (questions drafted). Confirm whether chat happened.", "suggested_email": "Hi Andrei — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through Conference / tracker contact, and your work at Microsoft — Manager, Strategic Partnerships caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Tyler Ryan", "company": "BlackRock", "role": "VP, ETF Product", "how_we_met": "Informational interview Nov 5", "last_contact": "2026-11-05", "next_step": "Note sent Nov 23 — target BlackRock roles shared", "status": "Done", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "Conference / tracker contact", "prior_notes": "Informational interview Nov 5, 2026. Note sent Nov 23 with 4 target BlackRock Associate roles. Status Done — do not re-raise.", "suggested_email": "Hi Tyler — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through Conference / tracker contact, and your work at BlackRock — VP, ETF Product caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "[Pick] UF Hough alum @ Google", "company": "Google", "role": "", "how_we_met": "LinkedIn outreach (draft ready)", "last_contact": "Not recorded", "next_step": "Pick 2-3 people, send connection note", "status": "To pick", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "LinkedIn outreach — pick a real person first", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi [Pick] — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through LinkedIn outreach — pick a real person first, and your work at Google caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "[Pick] PwC alum @ Google", "company": "Google", "role": "", "how_we_met": "LinkedIn outreach (draft ready)", "last_contact": "Not recorded", "next_step": "Pick 2-3 people, send connection note", "status": "To pick", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "LinkedIn outreach — pick a real person first", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi [Pick] — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through LinkedIn outreach — pick a real person first, and your work at Google caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "[Pick] Chicago Strategy & Ops Googler", "company": "Google", "role": "", "how_we_met": "LinkedIn outreach (draft ready)", "last_contact": "Not recorded", "next_step": "Pick 2-3 people, send connection note", "status": "To pick", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "LinkedIn outreach — pick a real person first", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi [Pick] — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through LinkedIn outreach — pick a real person first, and your work at Google caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Chad Plenge", "company": "Spencer Stuart", "role": "Leadership Development / Extended Team", "how_we_met": "ROMBA", "last_contact": "Not recorded", "next_step": "LinkedIn follow-up (was due 2026-10-06)", "status": "Overdue", "email": null, "linkedin": "https://www.linkedin.com/in/chadplenge/", "phone": null, "contact_source": "Old tracker Contacts — MBA Internships 2025 (spelled 'Chad Plendge' there)", "contact_method": "LinkedIn", "commonality": "ROMBA", "prior_notes": "Spencer Stuart, ROMBA. No email on file anywhere. No prior call on record — this is a first LinkedIn follow-up, due Oct 6, 2026, overdue.", "suggested_email": "Hi Chad — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected at ROMBA, and Spencer Stuart's work on leadership assessment and CEO succession caught my eye — at PwC I ran 20+ exec interviews and coordinated 40+ stakeholders on a Pillar Two workplan. Would you have 15 minutes to talk about the Associate role and what the team looks for? Happy to work around your schedule — thank you, Ryan"}, {"name": "Pfizer Recruiter", "company": "Pfizer", "role": "Recruiter — Commercial Ops + Marketing", "how_we_met": "ROMBA Booth 409EX, Hudson Yards NYC", "last_contact": "Not recorded", "next_step": "Follow up on Commercial Ops + Marketing (was due 2026-10-07)", "status": "Overdue", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "ROMBA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Pfizer — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through ROMBA, and your work at Pfizer — Recruiter — Commercial Ops + Marketing caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Chase Recruiter", "company": "JPMorgan Chase", "role": "Recruiter — CAP / CADP", "how_we_met": "ROMBA, NYC", "last_contact": "Not recorded", "next_step": "Thank-you + follow up on 2 requests (was due 2026-10-07)", "status": "Overdue", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "ROMBA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Chase — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through ROMBA, and your work at JPMorgan Chase — Recruiter — CAP / CADP caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "BofA Recruiter", "company": "Bank of America", "role": "Recruiter — Strategy & Management Associate", "how_we_met": "ROMBA Booth 303EX, Charlotte / NYC", "last_contact": "Not recorded", "next_step": "Clarify NYC placement (was due 2026-10-08)", "status": "Overdue", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "ROMBA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi BofA — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through ROMBA, and your work at Bank of America — Recruiter — Strategy & Management Associate caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Accenture Recruiter", "company": "Accenture", "role": "Recruiter — Consulting / strategy", "how_we_met": "ROMBA Booth 302EX", "last_contact": "Not recorded", "next_step": "LinkedIn follow-up (was due 2026-10-10)", "status": "Overdue", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "ROMBA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Accenture — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through ROMBA, and your work at Accenture — Recruiter — Consulting / strategy caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Shareen Luze", "company": "RBC", "role": "Head, Business Administration — RBC Wealth Management", "how_we_met": "NBMBAA", "last_contact": "Not recorded", "next_step": "Send thank-you — RBC is #1 target, WealthTech platform strategy", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "No prior meeting on record — first outreach, not a thank-you. #1 target contact, RBC Wealth Management.", "suggested_email": "Hi Shareen — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work leading Business Administration at RBC Wealth Management stood out to me. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. I'd love 15 minutes to hear how Business Administration works inside Wealth Management at RBC, and what makes a strong MBA hire stand out. Happy to work around your schedule — thank you, Ryan"}, {"name": "Jacob Mathews", "company": "RBC", "role": "Managing Director — WealthTech / Distribution Technology", "how_we_met": "NBMBAA — via RBC team", "last_contact": "Not recorded", "next_step": "Reference in RBC outreach; target his WealthTech platform ops team NYC/Jersey City", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Jacob — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work at RBC — Managing Director — WealthTech / Distribution Technology caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Irina Melkumyan", "company": "RBC", "role": "", "how_we_met": "NBMBAA — DEI/ERG work", "last_contact": "Not recorded", "next_step": "Connect on LinkedIn referencing DEI/ERG work", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Irina — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work at RBC caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Lisa Jenkins", "company": "RBC", "role": "", "how_we_met": "NBMBAA — connection to Jack Card", "last_contact": "Not recorded", "next_step": "Connect on LinkedIn referencing Jack Card", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Lisa — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work at RBC caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "April Vich", "company": "Danaher", "role": "Recruiter", "how_we_met": "NBMBAA — badge photo, Danaher Corporation, Washington DC", "last_contact": "Not recorded", "next_step": "Send follow-up email — front-facing Biz Ops, Chicago/DC", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi April — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work at Danaher — Recruiter caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Etim Eden", "company": "Morgan Stanley", "role": "Wealth Management", "how_we_met": "NBMBAA", "last_contact": "Not recorded", "next_step": "Send LinkedIn connection note — Wealth Mgmt / Ops, NYC", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Etim — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work at Morgan Stanley — Wealth Management caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Teressa Shorter", "company": "Morgan Stanley", "role": "VP, CAO & Diversity Officer", "how_we_met": "Post-NBMBAA call (30 people)", "last_contact": "Not recorded", "next_step": "Send LinkedIn note — CAO / Business Operations, NYC/Baltimore", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "Post-NBMBAA call (30 people).", "suggested_email": "Hi Teressa — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work at Morgan Stanley — VP, CAO & Diversity Officer caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Fola Fapohunda", "company": "Morgan Stanley", "role": "Corporate Services", "how_we_met": "Post-NBMBAA call", "last_contact": "Not recorded", "next_step": "Send LinkedIn note — Corporate Services / Morgan Stanley at Work, DC/NYC", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "Post-NBMBAA call.", "suggested_email": "Hi Fola — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work at Morgan Stanley — Corporate Services caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Sam", "company": "Morgan Stanley", "role": "Field Management — Wealth Management", "how_we_met": "Post-NBMBAA call", "last_contact": "Not recorded", "next_step": "Follow up — Field Management, wealth offices (first name only in source)", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "Post-NBMBAA call. First name only in source.", "suggested_email": "Hi Sam — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work at Morgan Stanley — Field Management — Wealth Management caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Jasmine D.", "company": "U.S. Bank", "role": "Recruiter at U.S. Bank", "how_we_met": "NBMBAA — LinkedIn screenshot, Los Angeles", "last_contact": "Not recorded", "next_step": "Follow up — sales planning pipeline, Chicago/NYC", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Jasmine — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work at U.S. Bank — Recruiter at U.S. Bank caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Ryan", "company": "Humana", "role": "MBA Recruiter", "how_we_met": "NBMBAA", "last_contact": "Not recorded", "next_step": "Touchpoint now; re-engage 2–3 months pre-grad (Jan/Feb) for FT MBA strategy roles (first name only in source)", "status": "Scheduled trigger", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Ryan — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work at Humana — MBA Recruiter caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Andrew Lee", "company": "Fidelity", "role": "MBA Financial Leadership Rotational Program", "how_we_met": "NBMBAA", "last_contact": "Not recorded", "next_step": "Send thank-you / connect — Fidelity MBA rotational, Jersey City/Chicago", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Andrew — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work at Fidelity — MBA Financial Leadership Rotational Program caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Melissa Sawyer", "company": "Morgan Stanley", "role": "Tech platform for advisors", "how_we_met": "ROMBA", "last_contact": "Not recorded", "next_step": "Email roles — she will connect Ryan with the team", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "ROMBA", "prior_notes": "Said she will email roles / connect Ryan with her Morgan Stanley advisor-tech-platform team. No team names or date on record.", "suggested_email": "Hi Melissa — thank you again for talking with me at ROMBA/NBMBAA. You mentioned connecting me with your team on the advisor tech platform, and I'd love to take you up on that whenever it's convenient. Is there someone on the team you'd suggest I speak with first? Happy to send a short intro you can forward, or just take a 15-minute chat — whichever is easiest. Thank you, Ryan"}, {"name": "Kaler Davis", "company": "CBRE", "role": "Transaction Management", "how_we_met": "ROMBA — spoke on panel", "last_contact": "Not recorded", "next_step": "Follow up — transaction management team", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "ROMBA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Kaler — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through ROMBA, and your work at CBRE — Transaction Management caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Brian Itro", "company": "", "role": "Finance Director (ex-ToysRUs)", "how_we_met": "Analyst to CFO event", "last_contact": "Not recorded", "next_step": "Follow up — FP&A, Ryan has tax / transfer pricing background", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "Conference / tracker contact", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Brian — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through Conference / tracker contact, and your work at  — Finance Director (ex-ToysRUs) caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Michael Arlotto", "company": "", "role": "Corp Dev", "how_we_met": "Analyst to CFO event", "last_contact": "Not recorded", "next_step": "Follow up — corp dev pipeline, debate / trust across groups", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "Conference / tracker contact", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Michael — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through Conference / tracker contact, and your work at  — Corp Dev caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Zach Tucker", "company": "", "role": "Financial Advisor", "how_we_met": "Analyst to CFO event", "last_contact": "Not recorded", "next_step": "Follow up — FP&A role", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "Conference / tracker contact", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Zach — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through Conference / tracker contact, and your work at  — Financial Advisor caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Luis Armstrong", "company": "Capital One", "role": "Payments", "how_we_met": "ROMBA", "last_contact": "Not recorded", "next_step": "Follow up — payments, Chicago, ex-Discover, merger / tech ahead", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "ROMBA", "prior_notes": "ROMBA. Cuban, Chicago, ex-Discover, payments — merger going well, ahead on tech (Ryan's ROMBA notes).", "suggested_email": "Hi Luis — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. I'm interested in product at Capital One, especially the MBA PM – 2027 role in Chicago, and would love 15 min to hear about your work there. — Ryan"}, {"name": "Jemila Smith", "company": "Citi", "role": "Campus Recruiter, Corporate Finance — AVP, Recruitment & Program Management", "how_we_met": "Citi chat", "last_contact": "Not recorded", "next_step": "Follow up — Citi Corporate Finance / FMA", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "Conference / tracker contact", "prior_notes": "No direct LinkedIn URL found in web search. Search 'Jemila Smith Citi' on LinkedIn.", "suggested_email": "Hi Jemila — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. I'm interested in Citi's Corporate Finance / MLDP tracks for 2027 MBAs and would love 15 min to hear how recruiting works. — Ryan"}, {"name": "Derek Hairston", "company": "TransUnion", "role": "Driving Customer Value & Retention | Identity & Marketing Solutions | AdTech", "how_we_met": "NBMBAA — badge photo + LinkedIn screenshot, Drive folder MBA Conference Contacts", "last_contact": "Not recorded", "next_step": "Follow up — TransUnion, Customer Value & Retention / Identity & Marketing Solutions", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "LinkedIn connection showed Pending in Ryan's screenshot (Nov 24). Check that before sending anything new.", "suggested_email": "Hi Derek — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. I came across your profile from NBMBAA — your work at TransUnion on customer value & retention and identity / marketing solutions caught my eye. Would you have 15 minutes to talk about your work at TransUnion and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Devin Pryor", "company": "NextEra Energy", "role": "", "how_we_met": "NBMBAA — badge photo, Drive folder MBA Conference Contacts", "last_contact": "Not recorded", "next_step": "Follow up — NextEra Energy, Juno Beach FL", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Devin — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work at NextEra Energy caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Jessica Gonsalves", "company": "AbbVie", "role": "", "how_we_met": "NBMBAA — badge photo, Drive folder MBA Conference Contacts", "last_contact": "Not recorded", "next_step": "Follow up — AbbVie, Chicago IL", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Jessica — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work at AbbVie caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Kunal Abichandani", "company": "ScottMadden, Inc.", "role": "", "how_we_met": "NBMBAA — badge photo, Drive folder MBA Conference Contacts", "last_contact": "Not recorded", "next_step": "Short message first — ask: MBA Associate hiring from UF / non-target, any open 2027 role, which office? Coffee chat only if yes", "status": "Hold — message first, not a full coffee chat", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "May be the 'Cal' Ryan talked to for 30 min on clean tech — to confirm. ScottMadden may not hire from UF.", "suggested_email": "Hi Kunal — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work at ScottMadden, Inc. caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "David Mendez", "company": "ScottMadden, Inc.", "role": "", "how_we_met": "NBMBAA — badge photo, Drive folder MBA Conference Contacts", "last_contact": "Not recorded", "next_step": "Short message first — ask: MBA Associate hiring from UF / non-target, any open 2027 role, which office? Coffee chat only if yes", "status": "Hold — message first, not a full coffee chat", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "One of Kunal / David may be the 30-min ScottMadden consultant — to confirm.", "suggested_email": "Hi David — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work at ScottMadden, Inc. caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Cicely Tomlinson", "company": "Mutual of Omaha", "role": "", "how_we_met": "NBMBAA — badge photo, Drive folder MBA Conference Contacts", "last_contact": "Not recorded", "next_step": "Follow up — Mutual of Omaha, Omaha NE", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Cicely — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work at Mutual of Omaha caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Veronica Armstrong", "company": "", "role": "", "how_we_met": "NBMBAA — badge photo, Drive folder MBA Conference Contacts", "last_contact": "Not recorded", "next_step": "Follow up — NBMBAA exhibitor, company/role unclear in image", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Veronica — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work at your team caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Chicara Sanders", "company": "", "role": "", "how_we_met": "NBMBAA — badge photo, Drive folder MBA Conference Contacts", "last_contact": "Not recorded", "next_step": "Follow up — NBMBAA attendee, Memphis TN, company/role unclear in image", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Chicara — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work at your team caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Ron Blackwell", "company": "Johnson & Johnson", "role": "", "how_we_met": "NBMBAA — badge photo, Drive folder MBA Conference Contacts", "last_contact": "Not recorded", "next_step": "Follow up — Johnson & Johnson, Wake Forest NC", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Ron — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work at Johnson & Johnson caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Jasmine Shadding", "company": "Huntington", "role": "", "how_we_met": "NBMBAA — contact card, Drive folder MBA Conference Contacts", "last_contact": "Not recorded", "next_step": "Follow up — Huntington, Houston, NBMBAA (different Jasmine from U.S. Bank Jasmine D.)", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "NBMBAA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Jasmine — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work at Huntington caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Ernie Garcia", "company": "Morgan Stanley", "role": "Wealth Management Advisor — Garcia Family Wealth Management Group, Sarasota FL", "how_we_met": "NBMBAA follow-up — Drive doc \"MS Morgan Stanley WM Ernie Notes\" in folder \"Morgan Stanley Ernie\"", "last_contact": "Not recorded", "next_step": "Parked — post-grad opportunity only, not a priority. Wealth management office in Sarasota. Ryan believes Ernie mainly wanted his parents (Lakewood Ranch) as clients.", "status": "Low priority — parked", "email": null, "linkedin": "https://www.linkedin.com/in/erniegarciamorganstanley/", "phone": null, "contact_source": "Ernie notes file, morgan-stanley-ernie-notes-2026-11-24.txt", "contact_method": "LinkedIn", "commonality": "NBMBAA", "prior_notes": "Extensive notes in morgan-stanley-ernie-notes-2026-11-24.txt — Sarasota wealth management, AI / ops project ideas. Parked, low priority; Ryan believes Ernie mainly wanted his parents as clients.", "suggested_email": "Hi Ernie — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through NBMBAA, and your work at Morgan Stanley — Wealth Management Advisor — Garcia Family Wealth Management Group, Sarasota FL caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Kate Haney", "company": "Google", "role": "Product Sales Manager", "how_we_met": "Old tracker — MBA Internships, 2025", "last_contact": "Not recorded", "next_step": "Follow up — Google, UF speaker; persistence / 20 applications", "status": "To follow up", "email": null, "linkedin": "https://www.linkedin.com/in/kat-haney/", "phone": null, "contact_source": "Old tracker Contacts — MBA Internships 2025", "contact_method": "LinkedIn", "commonality": "2025 internship search (old tracker)", "prior_notes": "UF speaker who came in; old note: '20 applications, persistence.'", "suggested_email": "Hi Kate — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through 2025 internship search (old tracker), and your work at Google — Product Sales Manager caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Liz Barnum", "company": "Google", "role": "Google Search Manager", "how_we_met": "Old tracker — MBA Internships, 2025", "last_contact": "Not recorded", "next_step": "Follow up — Google Search", "status": "To follow up", "email": "lizbarnum@google.com", "linkedin": null, "phone": null, "contact_source": "Old tracker Contacts — MBA Internships 2025", "contact_method": "Email", "commonality": "2025 internship search (old tracker)", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Liz — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through 2025 internship search (old tracker), and your work at Google — Google Search Manager caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Bryan Ruis", "company": "Google", "role": "Global Sales EM", "how_we_met": "Old tracker — MBA Internships, 2025", "last_contact": "Not recorded", "next_step": "Follow up — Google, Global Sales", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "2025 internship search (old tracker)", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Bryan — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through 2025 internship search (old tracker), and your work at Google — Global Sales EM caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Kristina Ruis", "company": "Google", "role": "Account Manager", "how_we_met": "Old tracker — MBA Internships, 2025", "last_contact": "Not recorded", "next_step": "Follow up — Google", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "2025 internship search (old tracker)", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Kristina — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through 2025 internship search (old tracker), and your work at Google — Account Manager caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Michael Toole", "company": "Microsoft", "role": "MBA Recruiter", "how_we_met": "Old tracker — MBA Internships, 2025", "last_contact": "Not recorded", "next_step": "Follow up — Microsoft MBA recruiting", "status": "To follow up", "email": "mtoole@microsoft.com", "linkedin": null, "phone": "425-703-3242", "contact_source": "Old tracker Contacts — MBA Internships 2025", "contact_method": "Email", "commonality": "2025 internship search (old tracker)", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Michael — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through 2025 internship search (old tracker), and your work at Microsoft — MBA Recruiter caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Andrew Clark", "company": "Microsoft", "role": "University Recruiter, UF", "how_we_met": "Old tracker — MBA Internships, 2025", "last_contact": "Not recorded", "next_step": "Follow up — Microsoft, UF recruiting", "status": "To follow up", "email": "andrewclark@microsoft.com", "linkedin": null, "phone": null, "contact_source": "Old tracker Contacts — MBA Internships 2025", "contact_method": "Email", "commonality": "2025 internship search (old tracker)", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Andrew — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through 2025 internship search (old tracker), and your work at Microsoft — University Recruiter, UF caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Matthew Manibusan", "company": "Amazon", "role": "Product Development", "how_we_met": "Old tracker — MBA Internships, 2025", "last_contact": "Not recorded", "next_step": "Follow up — Amazon, Product Development", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "2025 internship search (old tracker)", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Matthew — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through 2025 internship search (old tracker), and your work at Amazon — Product Development caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Allie Bennet", "company": "BlackRock", "role": "Talent Acquisition", "how_we_met": "Old tracker — MBA Internships, 2025", "last_contact": "Not recorded", "next_step": "Follow up — BlackRock, Talent Acquisition, NYC", "status": "To follow up", "email": "allie.bennett@blackrock.com", "linkedin": null, "phone": null, "contact_source": "Old tracker Contacts — MBA Internships 2025", "contact_method": "Email", "commonality": "2025 internship search (old tracker)", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Allie — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through 2025 internship search (old tracker), and your work at BlackRock — Talent Acquisition caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Jelicza Thomas", "company": "BlackRock", "role": "Campus Recruiting Associate", "how_we_met": "Old tracker — MBA Internships, 2025", "last_contact": "Not recorded", "next_step": "Follow up — BlackRock, Campus Recruiting, ATL", "status": "To follow up", "email": "jelicza.thomas@blackrock.com", "linkedin": null, "phone": null, "contact_source": "Old tracker Contacts — MBA Internships 2025", "contact_method": "Email", "commonality": "2025 internship search (old tracker)", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Jelicza — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through 2025 internship search (old tracker), and your work at BlackRock — Campus Recruiting Associate caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Raquel Duran", "company": "Pfizer", "role": "MBA Recruitment Program Lead", "how_we_met": "Old tracker — MBA Internships, 2025", "last_contact": "Not recorded", "next_step": "Follow up — Pfizer MBA recruiting", "status": "To follow up", "email": "raquel.duran@pfizer.com", "linkedin": null, "phone": null, "contact_source": "Old tracker Contacts — MBA Internships 2025", "contact_method": "Email", "commonality": "2025 internship search (old tracker)", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Raquel — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through 2025 internship search (old tracker), and your work at Pfizer — MBA Recruitment Program Lead caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Gzim Hakanjin", "company": "Pfizer", "role": "", "how_we_met": "Old tracker — MBA Internships, 2025 — ROMBA", "last_contact": "Not recorded", "next_step": "Follow up — Pfizer, ROMBA; applied and reached out in 2025", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "ROMBA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Gzim — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through ROMBA, and your work at Pfizer caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Ryan Carty", "company": "Meta", "role": "Meta Emerging Talent Recruiter", "how_we_met": "Old tracker — MBA Internships, 2025", "last_contact": "Not recorded", "next_step": "Follow up — Meta emerging talent recruiting", "status": "To follow up", "email": "ryancarty@meta.com", "linkedin": null, "phone": null, "contact_source": "Old tracker Contacts — MBA Internships 2025", "contact_method": "Email", "commonality": "2025 internship search (old tracker)", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Ryan — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through 2025 internship search (old tracker), and your work at Meta — Meta Emerging Talent Recruiter caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Ariane Owens", "company": "Adobe", "role": "University Sourcing Partner", "how_we_met": "Old tracker — MBA Internships, 2025", "last_contact": "Not recorded", "next_step": "Follow up — Adobe, University Sourcing, San Jose", "status": "To follow up", "email": "aowens@adobe.com", "linkedin": null, "phone": null, "contact_source": "Old tracker Contacts — MBA Internships 2025", "contact_method": "Email", "commonality": "2025 internship search (old tracker)", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Ariane — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through 2025 internship search (old tracker), and your work at Adobe — University Sourcing Partner caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Jaclyn Lomax", "company": "Walmart", "role": "Senior Manager", "how_we_met": "Old tracker — MBA Internships, 2025 — ROMBA", "last_contact": "Not recorded", "next_step": "Follow up — Walmart, ROMBA", "status": "To follow up", "email": null, "linkedin": "https://www.linkedin.com/in/jaclyn-lomax-657ab87/", "phone": null, "contact_source": "Old tracker Contacts — MBA Internships 2025", "contact_method": "LinkedIn", "commonality": "ROMBA", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Jaclyn — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through ROMBA, and your work at Walmart — Senior Manager caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Grady Svetly", "company": "Bank of America", "role": "Payments", "how_we_met": "Old tracker — MBA Internships, 2025", "last_contact": "Not recorded", "next_step": "Follow up — BofA Payments, UF candidate; coffee chat was scheduled", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "2025 internship search (old tracker)", "prior_notes": "Old tracker note: 'Coffee chat Monday' (2025, internship search).", "suggested_email": "Hi Grady — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through 2025 internship search (old tracker), and your work at Bank of America — Payments caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Matt Gates", "company": "Amazon", "role": "Sr. Product Manager", "how_we_met": "Screenshot from Ryan Nov 25 — Amazon contacts list", "last_contact": "Not recorded", "next_step": "Follow up — Amazon Product / Customer Success", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "Amazon contacts list (Ryan's screenshot, Nov 25)", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Matt — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through Amazon contacts list (Ryan's screenshot, Nov 25), and your work at Amazon — Sr. Product Manager caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Ian Hernandez", "company": "Amazon", "role": "Head of Business Development", "how_we_met": "Screenshot from Ryan Nov 25 — Amazon contacts list", "last_contact": "Not recorded", "next_step": "Follow up — Amazon Business Development", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "Amazon contacts list (Ryan's screenshot, Nov 25)", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Ian — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through Amazon contacts list (Ryan's screenshot, Nov 25), and your work at Amazon — Head of Business Development caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Pato Smith", "company": "Amazon", "role": "Sr. Supply Chain Manager", "how_we_met": "Screenshot from Ryan Nov 25 — Amazon contacts list", "last_contact": "Not recorded", "next_step": "Follow up — Amazon Supply Chain", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "Amazon contacts list (Ryan's screenshot, Nov 25)", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Pato — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through Amazon contacts list (Ryan's screenshot, Nov 25), and your work at Amazon — Sr. Supply Chain Manager caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Jack Oliver", "company": "Amazon", "role": "Sr. Product Manager", "how_we_met": "Screenshot from Ryan Nov 25 — Amazon contacts list", "last_contact": "Not recorded", "next_step": "Follow up — Amazon Product", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "Amazon contacts list (Ryan's screenshot, Nov 25)", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Jack — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through Amazon contacts list (Ryan's screenshot, Nov 25), and your work at Amazon — Sr. Product Manager caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Timothy Wong", "company": "Amazon", "role": "Regional Program Manager — Data Center Construction", "how_we_met": "Screenshot from Ryan Nov 25 — Amazon contacts list", "last_contact": "Not recorded", "next_step": "Follow up — Amazon Data Center Construction", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "Amazon contacts list (Ryan's screenshot, Nov 25)", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Timothy — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through Amazon contacts list (Ryan's screenshot, Nov 25), and your work at Amazon — Regional Program Manager — Data Center Construction caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Marisa Li", "company": "Amazon", "role": "Sr. Product Manager — Tech", "how_we_met": "Screenshot from Ryan Nov 25 — Amazon contacts list", "last_contact": "Not recorded", "next_step": "Follow up — Amazon Product / Tech", "status": "To follow up", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it", "contact_method": "Not in tracker — add it", "commonality": "Amazon contacts list (Ryan's screenshot, Nov 25)", "prior_notes": "No prior-call notes on record.", "suggested_email": "Hi Marisa — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We connected through Amazon contacts list (Ryan's screenshot, Nov 25), and your work at Amazon — Sr. Product Manager — Tech caught my eye. I think about BizOps as people + process + tech to make the customer experience better — at PwC I coordinated 40+ stakeholders on a 30-country rollout. Would you have 15 minutes to talk about your work and how someone with my background might fit? Happy to work around your schedule — thank you, Ryan"}, {"name": "Kenny Wang", "company": "PwC", "role": "", "how_we_met": "PwC connection — named by Ryan Nov 25, 2026; confirmed in contacts as Kenny Wang", "last_contact": "Not recorded", "next_step": "Reach out as a mentor — 20-min call about his path since PwC", "status": "To follow up", "email": null, "linkedin": null, "phone": "+1 504-717-1588", "contact_source": "Ryan's contacts (Mac) — phone confirmed Nov 25, 2026; also connected on Instagram per Ryan", "contact_method": "Phone / Instagram DM", "commonality": "Ex-PwC — mentor target", "prior_notes": "Mentor target — Ryan wants to build a relationship with Kenny as a mentor. PwC connection. Phone +1 504-717-1588, birthday May 20. Also connected on Instagram per Ryan, but NO Instagram DM thread with Kenny Wang was found: the only 'Kenny' in Instagram search was @iamkennyfinance (a different person — Ryan messaged him Sept 25, 2025 about his YouTube channel) and 'Wang' was Yiwei Leo Wang @thisisleowang (a different person). Do not conflate with either. No email or role on file; the PwC link is from Ryan.", "suggested_email": "Hi Kenny — I'm Ryan Anderson, UF Hough MBA '27. We worked at PwC together, and I'm finishing my MBA in May, thinking about BizOps / Chief of Staff roles. I'd love to hear your perspective on your path since PwC — would you have 20 minutes for a call sometime? Happy to work around your schedule — thank you, Ryan"}, {"name": "Teona Avaliani", "company": "PwC", "role": "", "how_we_met": "Met at ROMBA, Sept 2025 — chatted at the Marriott Gras event Oct 1, 2025; PwC connection", "last_contact": "2026-11-22 (Instagram DM)", "next_step": "Reach out as a mentor — 20-min call about her path since PwC; Sarasota is the local hook", "status": "To follow up", "email": "teona.avaliani@pwc.com", "linkedin": null, "phone": "(917) 288-2978", "contact_source": "Teona gave this PwC email herself in Instagram DM Nov 12, 2025, asking Ryan to email availability for Thu/Fri — verify before using now; phone + Instagram from Ryan's contacts", "contact_method": "Instagram DM (@teona_avaliani) / text (917) 288-2978 / email (verify first)", "commonality": "Ex-PwC; ROMBA; Sarasota", "prior_notes": "Mentor target — warm, friendly, ongoing since ROMBA Sept 2025. Met at ROMBA and chatted at the Marriott Gras event Oct 1, 2025. Jan 24, 2026 Ryan told her he'd applied to NYU, Kellogg and Georgetown with an interview scheduled early Feb; she thanked him Jan 24-25 for being a grounded voice when they talked. Oct 24, 2026 she said she volunteers for a nonprofit often and would let him know about events; Ryan said he'd be in Sarasota next weekend. Nov 6, 2026 she said she moved to Sarasota in April. Nov 22, 2026 she said she had lived in Sarasota for a year a while back, left, and came back — she likes it there, more relaxing than her old area; Ryan had thought she was in Miami. iMessage Oct 3-4, 2026: Ryan introduced himself, they coordinated going out (TMC, Sue Ellen's — $10 cover, mixed crowd — Round Up); Oct 4 she said it was nice seeing him again this year. Lives in Sarasota — the local hook.", "suggested_email": "Hi Teona — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC. We met at ROMBA and have kept in touch since — I loved hearing you moved back to Sarasota in April. I'm finishing my MBA in May and thinking about BizOps / operations roles, and I'd love to hear your perspective on your path since PwC. Would you have 20 minutes for a call sometime? Happy to work around your schedule — thank you, Ryan"}];
+  var COS_CONTACTS = [{"name": "Eli Frank", "company": "Tau Investments & Viva Voce", "role": "Chief of Staff, NYC", "how_we_met": "Chief of Staff networking list, Nov 25, 2026 — not yet contacted", "last_contact": "Not recorded", "next_step": "Send a short coffee-chat note (see suggested email)", "status": "To contact", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it (search LinkedIn for name + company; no URL found in search)", "contact_method": "Not in tracker — add it", "commonality": "UF MBA Warrington 2023", "prior_notes": "4x CoS, talks publicly about AI in the CoS role. Closest match overall.", "suggested_email": "Hi Eli — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC, and I'm exploring Chief of Staff roles. We share UF MBA Warrington 2023, and your work as Chief of Staff, NYC at Tau Investments & Viva Voce is exactly the path I'm looking at. I'd love 15–20 minutes to hear your perspective on how you got into the role and what the first months were like. Happy to work around your schedule — thank you, Ryan"}, {"name": "Kemena Brooks", "company": "Chicago Housing Authority", "role": "Chief of Staff, Chicago", "how_we_met": "Chief of Staff networking list, Nov 25, 2026 — not yet contacted", "last_contact": "Not recorded", "next_step": "Send a short coffee-chat note (see suggested email)", "status": "To contact", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it (search LinkedIn for name + company; no URL found in search)", "contact_method": "Not in tracker — add it", "commonality": "Loyola MBA Baumhart 2022", "prior_notes": "Same Loyola MBA, now CoS in Chicago.", "suggested_email": "Hi Kemena — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC, and I'm exploring Chief of Staff roles. We share Loyola MBA Baumhart 2022, and your work as Chief of Staff, Chicago at Chicago Housing Authority is exactly the path I'm looking at. I'd love 15–20 minutes to hear your perspective on how you got into the role and what the first months were like. Happy to work around your schedule — thank you, Ryan"}, {"name": "Omari Ross", "company": "Adaptix (former CoS) / Smartly.io", "role": "Former CoS, AI startup; now AI GTM Lead", "how_we_met": "Chief of Staff networking list, Nov 25, 2026 — not yet contacted", "last_contact": "Not recorded", "next_step": "Send a short coffee-chat note (see suggested email)", "status": "To contact", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it (search LinkedIn for name + company; no URL found in search)", "contact_method": "Not in tracker — add it", "commonality": "ex-PwC", "prior_notes": "PwC → startup CoS → AI. Location needs confirmation.", "suggested_email": "Hi Omari — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC, and I'm exploring Chief of Staff roles. We share ex-PwC, and your work as Former CoS, AI startup; now AI GTM Lead at Adaptix (former CoS) / Smartly.io is exactly the path I'm looking at. I'd love 15–20 minutes to hear your perspective on how you got into the role and what the first months were like. Happy to work around your schedule — thank you, Ryan"}, {"name": "Zachary Kozub", "company": "unPLUG Dining", "role": "Chief of Staff, Chicago", "how_we_met": "Chief of Staff networking list, Nov 25, 2026 — not yet contacted", "last_contact": "Not recorded", "next_step": "Send a short coffee-chat note (see suggested email)", "status": "To contact", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it (search LinkedIn for name + company; no URL found in search)", "contact_method": "Not in tracker — add it", "commonality": "Loyola Quinlan MBA Finance 2022–23", "prior_notes": "Started Oct 2025 — most peer-level, most accessible.", "suggested_email": "Hi Zachary — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC, and I'm exploring Chief of Staff roles. We share Loyola Quinlan MBA Finance 2022–23, and your work as Chief of Staff, Chicago at unPLUG Dining is exactly the path I'm looking at. I'd love 15–20 minutes to hear your perspective on how you got into the role and what the first months were like. Happy to work around your schedule — thank you, Ryan"}, {"name": "Meghan Golden", "company": "North American Veterinary Community", "role": "Chief of Staff, Orlando", "how_we_met": "Chief of Staff networking list, Nov 25, 2026 — not yet contacted", "last_contact": "Not recorded", "next_step": "Send a short coffee-chat note (see suggested email)", "status": "To contact", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it (search LinkedIn for name + company; no URL found in search)", "contact_method": "Not in tracker — add it", "commonality": "UF MBA + BS UF", "prior_notes": "Orlando home-city match.", "suggested_email": "Hi Meghan — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC, and I'm exploring Chief of Staff roles. We share UF MBA + BS UF, and your work as Chief of Staff, Orlando at North American Veterinary Community is exactly the path I'm looking at. I'd love 15–20 minutes to hear your perspective on how you got into the role and what the first months were like. Happy to work around your schedule — thank you, Ryan"}, {"name": "Tariq Walker", "company": "OneTrust", "role": "Chief of Staff to Chief Legal and Business Officer, San Francisco", "how_we_met": "Chief of Staff networking list, Nov 25, 2026 — not yet contacted", "last_contact": "Not recorded", "next_step": "Send a short coffee-chat note (see suggested email)", "status": "To contact", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it (search LinkedIn for name + company; no URL found in search)", "contact_method": "Not in tracker — add it", "commonality": "UF MBA Warrington 2015–17", "prior_notes": "Director-level CoS at a tech company.", "suggested_email": "Hi Tariq — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC, and I'm exploring Chief of Staff roles. We share UF MBA Warrington 2015–17, and your work as Chief of Staff to Chief Legal and Business Officer, San Francisco at OneTrust is exactly the path I'm looking at. I'd love 15–20 minutes to hear your perspective on how you got into the role and what the first months were like. Happy to work around your schedule — thank you, Ryan"}, {"name": "Kim Hill", "company": "ReliaQuest", "role": "Chief of Staff and Head of Corporate Communications, Tampa", "how_we_met": "Chief of Staff networking list, Nov 25, 2026 — not yet contacted", "last_contact": "Not recorded", "next_step": "Send a short coffee-chat note (see suggested email)", "status": "To contact", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it (search LinkedIn for name + company; no URL found in search)", "contact_method": "Not in tracker — add it", "commonality": "UF BS Journalism", "prior_notes": "Florida tech CoS.", "suggested_email": "Hi Kim — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC, and I'm exploring Chief of Staff roles. We share UF BS Journalism, and your work as Chief of Staff and Head of Corporate Communications, Tampa at ReliaQuest is exactly the path I'm looking at. I'd love 15–20 minutes to hear your perspective on how you got into the role and what the first months were like. Happy to work around your schedule — thank you, Ryan"}, {"name": "Dustin Hicks", "company": "Brundage Group", "role": "Director, PMO / Chief of Staff", "how_we_met": "Chief of Staff networking list, Nov 25, 2026 — not yet contacted", "last_contact": "Not recorded", "next_step": "Send a short coffee-chat note (see suggested email)", "status": "To contact", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it (search LinkedIn for name + company; no URL found in search)", "contact_method": "Not in tracker — add it", "commonality": "UF MBA", "prior_notes": "Needs confirmation: location / current employer.", "suggested_email": "Hi Dustin — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC, and I'm exploring Chief of Staff roles. We share UF MBA, and your work as Director, PMO / Chief of Staff at Brundage Group is exactly the path I'm looking at. I'd love 15–20 minutes to hear your perspective on how you got into the role and what the first months were like. Happy to work around your schedule — thank you, Ryan"}, {"name": "Logan Middleton", "company": "UKG (former CoS, Ultimate Software)", "role": "Former CoS to CEO; now Principal, Technology Strategy", "how_we_met": "Chief of Staff networking list, Nov 25, 2026 — not yet contacted", "last_contact": "Not recorded", "next_step": "Send a short coffee-chat note (see suggested email)", "status": "To contact", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it (search LinkedIn for name + company; no URL found in search)", "contact_method": "Not in tracker — add it", "commonality": "UF BS Math + MBA Warrington", "prior_notes": "Needs confirmation: location / current title.", "suggested_email": "Hi Logan — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC, and I'm exploring Chief of Staff roles. We share UF BS Math + MBA Warrington, and your work as Former CoS to CEO; now Principal, Technology Strategy at UKG (former CoS, Ultimate Software) is exactly the path I'm looking at. I'd love 15–20 minutes to hear your perspective on how you got into the role and what the first months were like. Happy to work around your schedule — thank you, Ryan"}, {"name": "Bhavna Deole", "company": "Guidehouse", "role": "Chief of Staff, Chicago", "how_we_met": "Chief of Staff networking list, Nov 25, 2026 — not yet contacted", "last_contact": "Not recorded", "next_step": "Send a short coffee-chat note (see suggested email)", "status": "To contact", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it (search LinkedIn for name + company; no URL found in search)", "contact_method": "Not in tracker — add it", "commonality": "Loyola MBA Quinlan 2012–14", "prior_notes": "Needs confirmation: source was a public-records aggregator.", "suggested_email": "Hi Bhavna — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC, and I'm exploring Chief of Staff roles. We share Loyola MBA Quinlan 2012–14, and your work as Chief of Staff, Chicago at Guidehouse is exactly the path I'm looking at. I'd love 15–20 minutes to hear your perspective on how you got into the role and what the first months were like. Happy to work around your schedule — thank you, Ryan"}, {"name": "Brendan Dubois", "company": "After School Matters", "role": "Former CoS; now CFO, Chicago", "how_we_met": "Chief of Staff networking list, Nov 25, 2026 — not yet contacted", "last_contact": "Not recorded", "next_step": "Send a short coffee-chat note (see suggested email)", "status": "To contact", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it (search LinkedIn for name + company; no URL found in search)", "contact_method": "Not in tracker — add it", "commonality": "Loyola MBA", "prior_notes": "Former CoS who moved into a CFO seat.", "suggested_email": "Hi Brendan — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC, and I'm exploring Chief of Staff roles. We share Loyola MBA, and your work as Former CoS; now CFO, Chicago at After School Matters is exactly the path I'm looking at. I'd love 15–20 minutes to hear your perspective on how you got into the role and what the first months were like. Happy to work around your schedule — thank you, Ryan"}, {"name": "Alua Sansyzbayeva", "company": "Picsart", "role": "Chief of Staff to CEO, Miami HQ", "how_we_met": "Chief of Staff networking list, Nov 25, 2026 — not yet contacted", "last_contact": "Not recorded", "next_step": "Send a short coffee-chat note (see suggested email)", "status": "To contact", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it (search LinkedIn for name + company; no URL found in search)", "contact_method": "Not in tracker — add it", "commonality": "ex-PwC (business valuation)", "prior_notes": "Born in Almaty, Kazakhstan — Asia connection. AI product company.", "suggested_email": "Hi Alua — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC, and I'm exploring Chief of Staff roles. We share ex-PwC (business valuation), and your work as Chief of Staff to CEO, Miami HQ at Picsart is exactly the path I'm looking at. I'd love 15–20 minutes to hear your perspective on how you got into the role and what the first months were like. Happy to work around your schedule — thank you, Ryan"}, {"name": "Mike Higashioka", "company": "Nutanix", "role": "Senior Director, Strategic Marketing & CoS to CMO", "how_we_met": "Chief of Staff networking list, Nov 25, 2026 — not yet contacted", "last_contact": "Not recorded", "next_step": "Send a short coffee-chat note (see suggested email)", "status": "To contact", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it (search LinkedIn for name + company; no URL found in search)", "contact_method": "Not in tracker — add it", "commonality": "ex-PwC (Manager, Advisory 2016–17)", "prior_notes": "More senior, bigger company — lower priority.", "suggested_email": "Hi Mike — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC, and I'm exploring Chief of Staff roles. We share ex-PwC (Manager, Advisory 2016–17), and your work as Senior Director, Strategic Marketing & CoS to CMO at Nutanix is exactly the path I'm looking at. I'd love 15–20 minutes to hear your perspective on how you got into the role and what the first months were like. Happy to work around your schedule — thank you, Ryan"}, {"name": "Daniel Baldwin", "company": "Nuview", "role": "Chief of Staff, Orlando", "how_we_met": "Chief of Staff networking list, Nov 25, 2026 — not yet contacted", "last_contact": "Not recorded", "next_step": "Send a short coffee-chat note (see suggested email)", "status": "To contact", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it (search LinkedIn for name + company; no URL found in search)", "contact_method": "Not in tracker — add it", "commonality": "None confirmed — school not found", "prior_notes": "Orlando startup CoS. School needs confirmation.", "suggested_email": "Hi Daniel — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC, and I'm exploring Chief of Staff roles. We share None confirmed — school not found, and your work as Chief of Staff, Orlando at Nuview is exactly the path I'm looking at. I'd love 15–20 minutes to hear your perspective on how you got into the role and what the first months were like. Happy to work around your schedule — thank you, Ryan"}, {"name": "Jessica Malkin", "company": "Cresset (former CoS, Uptake)", "role": "Former CoS to Founder & CEO, Uptake, Chicago", "how_we_met": "Chief of Staff networking list, Nov 25, 2026 — not yet contacted", "last_contact": "Not recorded", "next_step": "Send a short coffee-chat note (see suggested email)", "status": "To contact", "email": null, "linkedin": null, "phone": null, "contact_source": "Not in tracker — add it (search LinkedIn for name + company; no URL found in search)", "contact_method": "Not in tracker — add it", "commonality": "None — BA American University; spoke at Loyola Baumhart", "prior_notes": "Chicago AI-startup CoS story. More senior now.", "suggested_email": "Hi Jessica — I'm Ryan Anderson, UF Hough MBA '27, ex-PwC, and I'm exploring Chief of Staff roles. We share None — BA American University; spoke at Loyola Baumhart, and your work as Former CoS to Founder & CEO, Uptake, Chicago at Cresset (former CoS, Uptake) is exactly the path I'm looking at. I'd love 15–20 minutes to hear your perspective on how you got into the role and what the first months were like. Happy to work around your schedule — thank you, Ryan"}];
+  var PEOPLE_BY_NAME = {};
+  ALL_CONTACTS.concat(COS_CONTACTS).forEach(function(c){ if(!PEOPLE_BY_NAME[c.name]) PEOPLE_BY_NAME[c.name] = c; });
+
+  function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  var MISSING = '<span class="missing">Not in tracker \u2014 add it</span>';
+  function fieldVal(v){ return v ? esc(v) : MISSING; }
+
+  var modalBack = document.getElementById('personModalBack');
+  var modal = document.getElementById('personModal');
+  var lastFocus = null;
+
+  function personHTML(c){
+    var sub = [c.company, c.role].filter(Boolean).join(' \u00b7 ');
+    var actions = '';
+    if(c.email){
+      var subj = encodeURIComponent('Coffee chat \u2014 Ryan Anderson, UF Hough MBA \u201927');
+      var body = encodeURIComponent(c.suggested_email || '');
+      actions += '<a href="mailto:' + esc(c.email) + '?subject=' + subj + '&body=' + body + '">Send email \u2709</a>';
+    }
+    if(c.linkedin){ actions += '<a href="' + esc(c.linkedin) + '" target="_blank" rel="noopener">Open LinkedIn \u2197</a>'; }
+    actions += '<button type="button" class="secondary" id="copyEmailBtn">Copy suggested email</button>';
+    var html = '<div class="m-head"><div><h3 id="personModalName">' + esc(c.name) + '</h3>'
+      + (sub ? '<p class="m-sub">' + esc(sub) + '</p>' : '') + '</div>'
+      + '<button type="button" class="m-close" id="personModalClose" aria-label="Close">Close \u2715</button></div>'
+      + '<dl class="kv">'
+      + '<dt>How we met</dt><dd>' + fieldVal(c.how_we_met) + '</dd>'
+      + '<dt>Last contact</dt><dd>' + fieldVal(c.last_contact) + '</dd>'
+      + '<dt>Next step</dt><dd>' + fieldVal(c.next_step) + '</dd>'
+      + '<dt>Status</dt><dd>' + fieldVal(c.status) + '</dd>'
+      + '<dt>Best way to reach them</dt><dd>' + (c.contact_method ? esc(c.contact_method) : MISSING) + '</dd>'
+      + '<dt>Email</dt><dd>' + (c.email ? '<a href="mailto:' + esc(c.email) + '">' + esc(c.email) + '</a>' : MISSING) + '</dd>'
+      + '<dt>LinkedIn</dt><dd>' + (c.linkedin ? '<a href="' + esc(c.linkedin) + '" target="_blank" rel="noopener">' + esc(c.linkedin) + ' \u2197</a>' : MISSING) + '</dd>'
+      + '<dt>Phone</dt><dd>' + (c.phone ? esc(c.phone) : MISSING) + '</dd>'
+      + '<dt>Contact source</dt><dd>' + fieldVal(c.contact_source) + '</dd>'
+      + '<dt>Commonality</dt><dd>' + fieldVal(c.commonality) + '</dd>'
+      + '<dt>Notes — relationship &amp; history</dt><dd>' + fieldVal(c.prior_notes) + '</dd>'
+      + '</dl>'
+      + '<h4 style="margin:16px 0 4px;font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)">Suggested outreach email</h4>'
+      + '<div class="email-box">' + fieldVal(c.suggested_email) + '</div>'
+      + '<div class="m-actions">' + actions + '</div>';
+    return html;
+  }
+
+  function openPerson(name){
+    var c = PEOPLE_BY_NAME[name];
+    if(!c) return;
+    lastFocus = document.activeElement;
+    modal.innerHTML = personHTML(c);
+    modalBack.classList.add('open');
+    document.getElementById('personModalClose').addEventListener('click', closePerson);
+    var copyBtn = document.getElementById('copyEmailBtn');
+    if(copyBtn){
+      copyBtn.addEventListener('click', function(){
+        var text = c.suggested_email || '';
+        function done(){ copyBtn.textContent = 'Copied \u2713'; setTimeout(function(){ copyBtn.textContent = 'Copy suggested email'; }, 2000); }
+        if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done, done); } else { done(); }
+      });
+    }
+    modalBack.scrollTop = 0;
+    var closeEl = document.getElementById('personModalClose');
+    if(closeEl) closeEl.focus();
+  }
+  function closePerson(){
+    modalBack.classList.remove('open');
+    modal.innerHTML = '';
+    if(lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  modalBack.addEventListener('click', function(ev){ if(ev.target === modalBack) closePerson(); });
+  document.addEventListener('keydown', function(ev){ if(ev.key === 'Escape' && modalBack.classList.contains('open')) closePerson(); });
+
+  document.addEventListener('click', function(ev){
+    var t = ev.target.closest ? ev.target.closest('[data-person]') : null;
+    if(t){ ev.stopPropagation(); ev.preventDefault(); openPerson(t.getAttribute('data-person')); }
+  }, true);
+  document.addEventListener('keydown', function(ev){
+    if((ev.key === 'Enter' || ev.key === ' ') && ev.target.classList && ev.target.classList.contains('person-link')){
+      ev.preventDefault(); openPerson(ev.target.getAttribute('data-person'));
+    }
+  });
+
+  document.querySelectorAll('[data-person-idx]').forEach(function(el){
+    var c = CONTACTS[parseInt(el.getAttribute('data-person-idx'),10)];
+    if(c) el.setAttribute('data-person', c.name);
+  });
+
+  function methodPill(c){
+    if(c.email) return '<span class="method-pill">Email</span>';
+    if(c.linkedin) return '<span class="method-pill">LinkedIn only</span>';
+    return '<span class="method-pill none">Not in tracker \u2014 add it</span>';
+  }
+  var peopleBody = document.getElementById('peopleBody');
+  if(peopleBody){
+    peopleBody.innerHTML = ALL_CONTACTS.map(function(c){
+      return '<tr data-person="' + esc(c.name) + '" tabindex="0"><td><strong>' + esc(c.name) + '</strong></td><td>' + esc(c.company || '\u2014') + '</td><td>' + esc(c.role || '\u2014') + '</td><td>' + esc(c.status || '\u2014') + '</td><td>' + methodPill(c) + '</td></tr>';
+    }).join('');
+  }
+
+  var cosGrid = document.getElementById('cosGrid');
+  if(cosGrid){
+    cosGrid.innerHTML = COS_CONTACTS.map(function(c){
+      return '<article class="contact" data-person="' + esc(c.name) + '" tabindex="0" role="button" aria-label="' + esc(c.name) + ' \u2014 show contact detail"><div class="co">' + esc(c.company) + '</div><h3>' + esc(c.name) + '</h3><div class="role">' + esc(c.role) + '</div><p class="next"><strong>Commonality:</strong> ' + esc(c.commonality || 'Not in tracker \u2014 add it') + '</p><p class="next">' + esc(c.next_step || '') + '</p></article>';
+    }).join('');
+  }
+
+  /* ---------- keyboard support for tappable non-button elements ---------- */
+  document.querySelectorAll('[role="button"]:not(button), [data-overdue]').forEach(function(el){
+    el.addEventListener('keydown', function(ev){
+      if(ev.key === 'Enter' || ev.key === ' '){
+        ev.preventDefault();
+        el.click();
+      }
+    });
+  });
+})();
 </script>
 </body>
 </html>
