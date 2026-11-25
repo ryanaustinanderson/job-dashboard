@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>Job Search Dashboard — Ryan Anderson</title>
+<script id="hatch-space-target">
+    (() => {
+      const params = new URLSearchParams(location.hash.slice(1));
+      const root = document.documentElement;
+      if (params.get("hatch_target") === "tv") root.dataset.hatchTarget = "tv";
+      const widget = params.get("hatch_view") === "widget";
+      root.dataset.hatchView = widget ? "widget" : "app";
+      if (widget) {
+        root.dataset.hatchWidget = params.get("hatch_widget") || "default";
+        root.dataset.hatchInstance = params.get("hatch_instance") || "";
+        const sizes = ["small", "medium", "large", "watch", "watch_round"];
+        root.dataset.hatchSize = sizes.includes(params.get("hatch_size")) ? params.get("hatch_size") : "small";
+        const style = document.createElement("style");
+        style.textContent = 'html[data-hatch-view="widget"], html[data-hatch-view="widget"] body { background: transparent; }';
+        document.head.prepend(style);
+      }
+    })();
+  </script>
+<style>
+  :root{
+    --bg:#f6f5f2; --surface:#ffffff; --surface2:#eef2f0; --ink:#17202b; --muted:#5b6a7a; --line:#dde3e0;
+    --accent:#0e6b5e; --accent-ink:#ffffff; --amber:#9a5b00; --amber-bg:#fff3d6; --red:#9b2c2c; --red-bg:#fde8e8;
+    --green-bg:#dff3ec; --green:#0e6b5e; --blue-bg:#e6eef7; --blue:#234a73; --grey-bg:#eceff1; --grey:#4a5a6a;
+    --radius:14px; --shadow:0 1px 3px rgba(20,30,40,.08);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#12181f; --surface:#1b242e; --surface2:#222e3a; --ink:#eef2f5; --muted:#a9b7c2; --line:#2e3d4a;
+      --accent:#2ebdA6; --accent:#2ebda6; --accent-ink:#0c1a17; --amber:#f0b84a; --amber-bg:#3a2f14; --red:#ff9a9a; --red-bg:#3d2222;
+      --green-bg:#17382f; --green:#5ed3b8; --blue-bg:#1e324a; --blue:#9cc2e8; --grey-bg:#2a3642; --grey:#b8c5d1;
+      --shadow:0 1px 3px rgba(0,0,0,.35);
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family: ui-sans-system, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;line-height:1.45}
+  a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+  button,[role="button"],select,summary{ min-height:2.25rem }
+  .wrap{max-width:1080px;margin:0 auto;padding:20px 16px 40px}
+  /* header */
+  .top{padding:6px 0 14px;border-bottom:2px solid var(--ink);margin-bottom:18px}
+  .top h1{font-size:28px;line-height:1.05;margin:0 0 6px;letter-spacing:-.02em;font-weight:800}
+  .top p{margin:0;color:var(--muted);font-size:14.5px;max-width:62ch}
+  .top p strong{color:var(--ink)}
+  .source-line{margin-top:10px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+  .source-line a{font-weight:600;padding:6px 0}
+  /* stats */
+  .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:18px 0 22px}
+  .stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 12px;box-shadow:var(--shadow)}
+  .stat b{display:block;font-size:28px;line-height:1;font-weight:800}
+  .stat span{display:block;margin-top:6px;font-size:12.5px;color:var(--muted);line-height:1.25}
+  .stat.alert b{color:var(--red)} .stat.alert span{color:var(--red)}
+  @media(max-width:640px){.stats{grid-template-columns:repeat(3,1fr)} .stat b{font-size:24px} .top h1{font-size:25px}}
+  /* sections */
+  h2{font-size:19px;margin:28px 0 4px;letter-spacing:-.01em}
+  h2 + .sub{color:var(--muted);font-size:13.5px;margin:0 0 12px}
+  .section-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  /* lamp */
+  .lamp{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .lamp li{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;display:grid;grid-template-columns:36px 1fr auto;gap:12px;align-items:start;box-shadow:var(--shadow)}
+  .rank{width:32px;height:32px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-weight:800;font-size:15px}
+  .lamp h3{margin:0;font-size:16.5px}
+  .lamp .note{color:var(--muted);font-size:13.5px;margin:2px 0 0}
+  .lamp .adv{font-size:13px;margin-top:6px}
+  .lamp .adv span{color:var(--muted)}
+  .scores{text-align:right;font-size:12px;color:var(--muted);line-height:1.3;white-space:nowrap}
+  .scores b{color:var(--ink);font-size:14px}
+  .dots{letter-spacing:2px;color:var(--accent);font-size:13px}
+  /* next up */
+  .nextup{margin-top:12px;background:var(--surface);border:1.5px dashed var(--accent);border-radius:var(--radius);padding:16px}
+  .nextup .label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--accent)}
+  .nextup h3{margin:4px 0 4px;font-size:18px}
+  .nextup p{margin:0;color:var(--muted);font-size:14px}
+  /* focus cards */
+  .focus{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:820px){.focus{grid-template-columns:1fr}}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+  .card h3{margin:0 0 2px;font-size:17px}
+  .card .tagline{font-size:13px;color:var(--muted);margin:0 0 12px}
+  .card h4{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px}
+  .card h4:first-of-type{margin-top:0}
+  .card ul{margin:0;padding-left:18px;font-size:13.5px}
+  .card li{margin:5px 0}
+  .card li::marker{color:var(--accent)}
+  /* filters + apps */
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 12px}
+  .filters button{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font-size:13.5px;font-weight:600;cursor:pointer;min-height:38px}
+  .filters button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .apps{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:680px){.apps{grid-template-columns:1fr}}
+  .app{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 14px}
+  .app .co{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+  .app h3{margin:3px 0 4px;font-size:15px;line-height:1.3}
+  .app .loc{font-size:13px;color:var(--muted)}
+  .pill{display:inline-block;margin-top:8px;font-size:12px;font-weight:700;padding:4px 8px;border-radius:999px}
+  .pill.live{background:var(--green-bg);color:var(--green)}
+  .pill.verify{background:var(--amber-bg);color:var(--amber)}
+  .pill.out{background:var(--grey-bg);color:var(--grey)}
+  .pill.fit{background:var(--blue-bg);color:var(--blue)}
+  .app .detail{font-size:13px;color:var(--muted);margin-top:6px}
+  /* contacts */
+  .contacts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media(max-width:680px){.contacts{grid-template-columns:1fr}}
+  .contact{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:13px 14px}
+  .contact h3{margin:0;font-size:15px} .contact .role{font-size:13px;color:var(--muted)} .contact .next{font-size:13.5px;margin-top:6px}
+  .contact .co{font-size:12px;font-weight:700;color:var(--accent)}
+  .contact.first{border-color:var(--accent);border-width:1.5px}
+  .badge1{font-size:11px;font-weight:800;background:var(--accent);color:var(--accent-ink);padding:2px 6px;border-radius:999px;margin-left:6px;vertical-align:middle}
+  /* overdue */
+  .overdue{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--red);border-radius:var(--radius);overflow:hidden}
+  .overdue table{width:100%;border-collapse:collapse;font-size:14px}
+  .overdue th{text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:10px 14px 6px}
+  .overdue td{padding:9px 14px;border-top:1px solid var(--line);vertical-align:top}
+  .overdue .due{color:var(--red);font-weight:700;white-space:nowrap}
+  @media(max-width:560px){ .overdue thead{display:none} .overdue tr{display:block;padding:8px 0;border-top:1px solid var(--line)} .overdue td{display:block;border:none;padding:2px 14px} }
+  .parked{margin-top:12px;background:var(--surface2);border-radius:12px;padding:14px 16px;font-size:14px}
+  .parked strong{font-size:15px}
+  footer{margin-top:32px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+  footer p{margin:4px 0}
+  /* widget */
+  html[data-hatch-view="widget"] .app-view{display:none}
+  .widget-view{display:none}
+  html[data-hatch-view="widget"] .widget-view{display:flex;flex-direction:column;justify-content:center;height:100vh;padding:14px;font-family:inherit;color:var(--ink)}
+  .widget-view .w-big{font-size:32px;font-weight:800;line-height:1}
+  .widget-view .w-label{font-size:12px;color:var(--muted);margin-top:4px}
+  .widget-view .w-row{display:flex;gap:16px;margin-top:10px;font-size:13px}
+  .widget-view .w-row b{display:block;font-size:18px}
+  html[data-hatch-size="small"] .widget-view .w-row, html[data-hatch-size="watch"] .widget-view .w-row, html[data-hatch-size="watch_round"] .widget-view .w-row{display:none}
+  html[data-hatch-size="watch_round"] .widget-view{align-items:center;text-align:center}
+</style>
+</head>
+<body>
+
+<!-- WIDGET -->
+<section class="widget-view" aria-label="Job search summary">
+  <div class="w-big">10 live</div>
+  <div class="w-label">applications to apply to · 19 total</div>
+  <div class="w-row">
+    <div><b>6</b> overdue</div>
+    <div><b>47</b> to follow up</div>
+    <div><b>#1</b> Google</div>
+  </div>
+  <div class="w-label" style="margin-top:10px">Snapshot Nov 25, 2026</div>
+</section>
+
+<div class="app-view wrap">
+  <header class="top">
+    <h1>Job search at a glance</h1>
+    <p><strong>Google / YouTube is #1.</strong> Capital One's MBA Product Manager role is your top-interest application not yet submitted. Amazon stays in play — competitive, but you want to try — with the Pets role as highest fit via Jack Erbs.</p>
+    <div class="source-line">
+      <span>Snapshot taken <strong>Nov 25, 2026</strong></span>
+      <span>·</span>
+      <a href="https://docs.google.com/spreadsheets/d/1TBbg_GWqIC-lPPsaI4TuAjs-EAL9URY9PnCBjyW-Z5c" target="_blank" rel="noopener">Job Applications Tracker (live source) ↗</a>
+    </div>
+  </header>
+
+  <div class="stats" role="list" aria-label="Counts">
+    <div class="stat" role="listitem"><b>64</b><span>people in tracker</span></div>
+    <div class="stat" role="listitem"><b>64</b><span>employers on LAMP list</span></div>
+    <div class="stat" role="listitem"><b>19</b><span>applications tracked</span></div>
+    <div class="stat" role="listitem"><b>47</b><span>contacts to follow up</span></div>
+    <div class="stat alert" role="listitem"><b>6</b><span>overdue ROMBA follow-ups</span></div>
+  </div>
+
+  <section aria-labelledby="lamp-h">
+    <h2 id="lamp-h">Top 5 employers — LAMP</h2>
+    <p class="sub">Ranked by Motivation, then Posting. Motivation 3 = highest. Posting 3 = live posting verified.</p>
+    <ol class="lamp">
+      <li>
+        <div class="rank">1</div>
+        <div>
+          <h3>Google / YouTube</h3>
+          <p class="note">GTM Launch + YouTube Marketing, Chicago — both live Nov 23</p>
+          <p class="adv"><span>Advocates:</span> Kate Haney, Liz Barnum, Bryan Ruis, Kristina Ruis</p>
+        </div>
+        <div class="scores"><b>M 3 · P 3</b><br><span class="dots">●●●</span></div>
+      </li>
+      <li>
+        <div class="rank">2</div>
+        <div>
+          <h3>Capital One</h3>
+          <p class="note">MBA Product Manager 2027, Chicago $169k — live, no close date</p>
+          <p class="adv"><span>Advocate:</span> Luis Armstrong (Payments, Chicago)</p>
+        </div>
+        <div class="scores"><b>M 3 · P 3</b><br><span class="dots">●●●</span></div>
+      </li>
+      <li>
+        <div class="rank">3</div>
+        <div>
+          <h3>BlackRock</h3>
+          <p class="note">Target roles (TBD), via Tyler intro</p>
+          <p class="adv"><span>Advocate:</span> Tyler Ryan (VP, ETF Product) — note sent Nov 23</p>
+        </div>
+        <div class="scores"><b>M 3 · P 1</b><br><span class="dots">●○○</span></div>
+      </li>
+      <li>
+        <div class="rank">4</div>
+        <div>
+          <h3>Adobe</h3>
+          <p class="note">Rolled forward from old MBA Internships tracker, Nov 24</p>
+          <p class="adv"><span>Advocate:</span> Ariane Owens — University Sourcing Partner</p>
+        </div>
+        <div class="scores"><b>M 3 · P 1</b><br><span class="dots">●○○</span></div>
+      </li>
+      <li>
+        <div class="rank">5</div>
+        <div>
+          <h3>Microsoft</h3>
+          <p class="note">Rolled forward from old MBA Internships tracker, Nov 24</p>
+          <p class="adv"><span>Advocates:</span> Michael Toole — MBA Recruiter; Andrew Clark — University Recruiter, UF</p>
+        </div>
+        <div class="scores"><b>M 3 · P 1</b><br><span class="dots">●○○</span></div>
+      </li>
+    </ol>
+
+    <div class="nextup">
+      <div class="label">Next up — not in Top 5</div>
+      <h3>Amazon — Motivation 2 · Posting 3</h3>
+      <p>MLDP live in Seattle, $121,200–$163,900, starts Jul 19, 2027. Sr Program Manager — Pets is referral-only via <strong>Jack Erbs</strong> (Manager, Customer Success, Amazon Pets) and is your highest-fit role overall.</p>
+    </div>
+    <p class="sub" style="margin-top:10px">JPMorgan Chase is excluded from the Top 5 despite Motivation 3 — CAP/CADP has no live full-time posting for May 2027 grads. ScottMadden is the one consulting exception; no other consulting firms are in the Top 5.</p>
+  </section>
+
+  <section aria-labelledby="focus-h">
+    <h2 id="focus-h">Focus: Google · Capital One · Amazon</h2>
+    <p class="sub">Roles and contacts from the snapshot.</p>
+    <div class="focus">
+      <article class="card">
+        <h3>Google / YouTube</h3>
+        <p class="tagline">Chicago · Both roles live Nov 23</p>
+        <h4>Roles</h4>
+        <ul>
+          <li><strong>Strategy &amp; Operations Senior Associate, GTM Launch</strong> — Chicago, $124k–$177k + 15% + equity. Live Nov 23, apply first.</li>
+          <li><strong>Global Strategy &amp; Operations Associate, YouTube Marketing</strong> — Chicago, $95k–$135k + 15% + equity. Not applied yet.</li>
+        </ul>
+        <h4>Contacts</h4>
+        <ul>
+          <li>Kate Haney — Product Sales Manager</li>
+          <li>Liz Barnum — Google Search Manager</li>
+          <li>Bryan Ruis — Global Sales EM</li>
+          <li>Kristina Ruis — Account Manager</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3>Capital One</h3>
+        <p class="tagline">Top interest — not applied yet</p>
+        <h4>Role</h4>
+        <ul>
+          <li><strong>MBA Product Manager – 2027</strong> — Chicago $169k / NYC $203k / McLean $186k / Richmond $169k. Cohort starts Aug 2027, posted since Aug 10, 2026, no close date.</li>
+        </ul>
+        <h4>Contact</h4>
+        <ul>
+          <li>Luis Armstrong — Payments, Chicago, ex-Discover</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3>Amazon</h3>
+        <p class="tagline">Motivation 2 · Posting 3 · 8 contacts</p>
+        <h4>Roles</h4>
+        <ul>
+          <li><strong>MLDP</strong> — Seattle, $121,200–$163,900, starts Jul 19, 2027, live</li>
+          <li><strong>Pathways Operations Manager</strong> — open</li>
+          <li><strong>Sr Program Manager — Pets</strong> — Arlington / NYC, highest fit, referral-only via Jack Erbs</li>
+        </ul>
+        <h4>Contacts</h4>
+        <ul>
+          <li>Jack Erbs — Manager, Customer Success, Amazon Pets</li>
+          <li>Matt Gates — Sr. Product Manager</li>
+          <li>Ian Hernandez — Head of Business Development</li>
+          <li>Pato Smith — Sr. Supply Chain Manager</li>
+          <li>Jack Oliver — Sr. Product Manager</li>
+          <li>Timothy Wong — Regional PM, Data Center Construction</li>
+          <li>Marisa Li — Sr. Product Manager, Tech</li>
+          <li>Matthew Manibusan — Product Development</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="apps-h">
+    <div class="section-head">
+      <div>
+        <h2 id="apps-h">Applications — 19 total</h2>
+        <p class="sub" style="margin-bottom:0">Filter by where things stand right now.</p>
+      </div>
+    </div>
+    <div class="filters" role="group" aria-label="Filter applications">
+      <button type="button" data-filter="all" aria-pressed="true">All · 19</button>
+      <button type="button" data-filter="live" aria-pressed="false">Live / to apply · 10</button>
+      <button type="button" data-filter="fit" aria-pressed="false">Highest fit · 1</button>
+      <button type="button" data-filter="out" aria-pressed="false">Out · 5</button>
+      <button type="button" data-filter="watch" aria-pressed="false">Watch · 3</button>
+    </div>
+    <div class="apps" id="appsGrid">
+      <!-- LIVE -->
+      <article class="app" data-cat="live"><div class="co">Google / YouTube · Chicago</div><h3>Strategy and Operations Senior Associate, GTM Launch</h3><span class="pill live">Live Nov 23 — apply</span></article>
+      <article class="app" data-cat="live"><div class="co">Google / YouTube · Chicago</div><h3>Global Strategy and Operations Associate, YouTube Marketing</h3><span class="pill live">Live — not applied yet</span></article>
+      <article class="app" data-cat="live"><div class="co">Capital One · Chicago / NYC / McLean / Richmond</div><h3>MBA Product Manager – 2027</h3><span class="pill fit">Top interest — not applied yet</span><p class="detail">Chicago $169k. No close date listed.</p></article>
+      <article class="app" data-cat="live"><div class="co">Amazon · Seattle</div><h3>MLDP</h3><span class="pill live">Live — apply</span><p class="detail">$121,200–$163,900 · Starts Jul 19, 2027</p></article>
+      <article class="app" data-cat="live"><div class="co">Amazon</div><h3>Pathways Operations Manager</h3><span class="pill live">Open</span></article>
+      <article class="app" data-cat="fit"><div class="co">Amazon · Arlington / NYC</div><h3>Sr Program Manager — Pets</h3><span class="pill fit">Highest fit — referral only</span><p class="detail">Via Jack Erbs, Customer Success. Not a live apply-now posting.</p></article>
+      <article class="app" data-cat="live"><div class="co">Bank of America · Charlotte / NYC</div><h3>Strategy &amp; Management Associate</h3><span class="pill live">Live Nov 20</span><p class="detail">NYC limited, Charlotte primary.</p></article>
+      <article class="app" data-cat="live"><div class="co">Spencer Stuart</div><h3>Associate</h3><span class="pill live">Open</span></article>
+      <article class="app" data-cat="live"><div class="co">Simon-Kucher · NYC</div><h3>Pricing</h3><span class="pill verify">Likely live — confirm</span><p class="detail">Confirm on simon-kucher.com/careers</p></article>
+      <article class="app" data-cat="live"><div class="co">Citi · Tampa, FL</div><h3>Functions – Finance, Full Time Associate, Tampa – USA, 2027 (FMA)</h3><span class="pill verify">Page still live Nov 23</span><p class="detail">Close date Oct 7 passed — try Apply button.</p></article>
+      <article class="app" data-cat="live"><div class="co">DoorDash · Chicago</div><h3>Associate Manager, New Verticals — Convenience Strategy &amp; Operations</h3><span class="pill verify">Verify on DoorDash careers</span></article>
+      <!-- WATCH -->
+      <article class="app" data-cat="watch"><div class="co">BlackRock</div><h3>Target roles (TBD)</h3><span class="pill fit">Target — via Tyler intro</span></article>
+      <article class="app" data-cat="watch"><div class="co">McDonald's · Chicago</div><h3>Leadership Development / Corporate roles — Chicago</h3><span class="pill out">No specific MBA LDP posting found Nov 24</span></article>
+      <article class="app" data-cat="watch"><div class="co">ScottMadden · Atlanta / Raleigh / Westborough, MA</div><h3>Associate — MBA entry</h3><span class="pill out">No live campus MBA Associate posting found Nov 24</span><p class="detail">Your one consulting exception — favorite firm.</p></article>
+      <!-- OUT -->
+      <article class="app" data-cat="out"><div class="co">JPMorgan Chase · NYC</div><h3>CAP / CADP</h3><span class="pill out">Out — no live FT posting</span></article>
+      <article class="app" data-cat="out"><div class="co">Pfizer · Hudson Yards, NYC</div><h3>Commercial Operations</h3><span class="pill out">Out — no live MBA posting</span></article>
+      <article class="app" data-cat="out"><div class="co">Pfizer</div><h3>Marketing</h3><span class="pill out">Out — closed / ineligible</span></article>
+      <article class="app" data-cat="out"><div class="co">Dynasty · NYC</div><h3>Platform Operations</h3><span class="pill out">Out — no live NYC posting</span></article>
+      <article class="app" data-cat="out"><div class="co">TransUnion · Chicago / NYC</div><h3>Product Development</h3><span class="pill out">Out — no MBA-level posting</span></article>
+    </div>
+  </section>
+
+  <section aria-labelledby="follow-h">
+    <h2 id="follow-h">Follow up next</h2>
+    <p class="sub">8 priority names from the 47 people marked “To follow up” in the tracker.</p>
+    <div class="contacts">
+      <article class="contact first"><div class="co">RBC</div><h3>Shareen Luze <span class="badge1">#1 TARGET</span></h3><div class="role">Head, Business Administration — RBC Wealth Management</div><p class="next">Send thank-you — RBC is #1 target contact</p></article>
+      <article class="contact"><div class="co">Citi</div><h3>Jemila Smith</h3><div class="role">Campus Recruiter, Corporate Finance</div><p class="next">Follow up — Citi Corporate Finance / FMA</p></article>
+      <article class="contact"><div class="co">Capital One</div><h3>Luis Armstrong</h3><div class="role">Payments</div><p class="next">Follow up — payments, Chicago, ex-Discover</p></article>
+      <article class="contact"><div class="co">Morgan Stanley</div><h3>Melissa Sawyer</h3><div class="role">Tech platform for advisors</div><p class="next">Email roles — she will connect you with the team</p></article>
+      <article class="contact"><div class="co">Danaher</div><h3>April Vich</h3><div class="role">Recruiter</div><p class="next">Send follow-up email — front-facing Biz Ops, Chicago / DC</p></article>
+      <article class="contact"><div class="co">TransUnion</div><h3>Derek Hairston</h3><div class="role">Driving Customer Value &amp; Retention</div><p class="next">Follow up — TransUnion</p></article>
+      <article class="contact"><div class="co">Google</div><h3>Kate Haney</h3><div class="role">Product Sales Manager</div><p class="next">Follow up — Google, UF speaker</p></article>
+      <article class="contact"><div class="co">Amazon</div><h3>Matt Gates</h3><div class="role">Sr. Product Manager</div><p class="next">Follow up — Amazon Product / Customer Success</p></article>
+    </div>
+  </section>
+
+  <section aria-labelledby="overdue-h">
+    <h2 id="overdue-h">Overdue — ROMBA follow-ups</h2>
+    <p class="sub">Due Oct 6–10, 2026. Still open as of the Nov 25 snapshot.</p>
+    <div class="overdue">
+      <table>
+        <thead><tr><th>Due</th><th>Person</th><th>Company</th><th>Next step</th></tr></thead>
+        <tbody>
+          <tr><td class="due">Oct 6</td><td><strong>Chad Plenge</strong></td><td>Spencer Stuart</td><td>LinkedIn follow-up</td></tr>
+          <tr><td class="due">Oct 7</td><td><strong>Pfizer Recruiter</strong></td><td>Pfizer</td><td>Follow up on Commercial Ops + Marketing</td></tr>
+          <tr><td class="due">Oct 7</td><td><strong>Chase Recruiter</strong></td><td>JPMorgan Chase</td><td>Thank-you + follow up on 2 requests</td></tr>
+          <tr><td class="due">Oct 8</td><td><strong>BofA Recruiter</strong></td><td>Bank of America</td><td>Clarify NYC placement</td></tr>
+          <tr><td class="due">Oct 9</td><td><strong>Jack Erbs</strong></td><td>Amazon</td><td>Send thank-you follow-up — Sr Program Manager Pets is highest fit</td></tr>
+          <tr><td class="due">Oct 10</td><td><strong>Accenture Recruiter</strong></td><td>Accenture</td><td>LinkedIn follow-up</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="parked">
+      <strong>Parked — Ernie Garcia, Sarasota wealth management</strong><br>
+      Low priority, post-grad opportunity only. Wealth management office in Sarasota. You believe he mainly wanted your parents (Lakewood Ranch) as clients — not a priority now.
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>About this page:</strong> Built from a snapshot of the “Job Applications Tracker” Google Sheet taken Nov 25, 2026. The Sheet is the live source — re-check it for current status before applying or following up.</p>
+    <p>Chicago vs. NYC as primary target is still unresolved — this dashboard holds both. Amazon Customer Success appeals to you and you know it's competitive, but you still want to try.</p>
+  </footer>
+</div>
+
+<script>
+  (function(){
+    var btns = document.querySelectorAll('.filters button');
+    var apps = document.querySelectorAll('#appsGrid .app');
+    btns.forEach(function(b){
+      b.addEventListener('click', function(){
+        btns.forEach(function(x){ x.setAttribute('aria-pressed','false'); });
+        b.setAttribute('aria-pressed','true');
+        var f = b.getAttribute('data-filter');
+        apps.forEach(function(a){
+          a.style.display = (f==='all' || a.getAttribute('data-cat')===f) ? '' : 'none';
+        });
+      });
+    });
+  })();
+</script>
+</body>
+</html>
